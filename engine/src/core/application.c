@@ -27,8 +27,9 @@ Application *application_create()
 void application_destroy(Application *application)
 {
     window_destroy(application->ptr_main_window);
-
     free(application);
+
+    SDL_Quit();
 }
 
 void application_run(Application *application)
