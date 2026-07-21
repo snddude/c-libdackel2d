@@ -2,7 +2,7 @@
 
 #include <SDL3/SDL.h>
 
-enum KeyCode
+typedef enum key_code
 {
     // Letters
     A            = SDLK_A,
@@ -26,10 +26,6 @@ enum KeyCode
     S            = SDLK_S,
     T            = SDLK_T,
     U            = SDLK_U,
-    V            = SDLK_V,
-    W            = SDLK_W,
-    X            = SDLK_X,
-    Y            = SDLK_Y,
     V            = SDLK_V,
     W            = SDLK_W,
     X            = SDLK_X,
@@ -74,10 +70,10 @@ enum KeyCode
     PageDown     = SDLK_PAGEDOWN,
     Delete       = SDLK_DELETE,
     End          = SDLK_END,
-    Right        = SDLK_RIGHT,
-    Left         = SDLK_LEFT,
-    Down         = SDLK_DOWN,
-    Up           = SDLK_UP,
+    RightArrow   = SDLK_RIGHT,
+    LeftArrow    = SDLK_LEFT,
+    DownArrow    = SDLK_DOWN,
+    UpArrow      = SDLK_UP,
     Minus        = SDLK_MINUS,
     Equals       = SDLK_EQUALS,
     LeftBracket  = SDLK_LEFTBRACKET,
@@ -108,4 +104,4 @@ enum KeyCode
     NumNine      = SDLK_KP_9,
     NumZero      = SDLK_KP_0,
     NumPeriod    = SDLK_KP_PERIOD
-};
+} KeyCode;

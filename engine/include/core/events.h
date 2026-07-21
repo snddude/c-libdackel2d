@@ -4,13 +4,13 @@
 #include "input/mouse_button.h"
 #include "math/vector2.h"
 
-enum EventType
+typedef enum event_type
 {
-    Key = 0,
-    MouseButton,
-    MouseWheel,
-    MouseMotion
-};
+    Event_Key = 0,
+    Event_MouseButton,
+    Event_MouseWheel,
+    Event_MouseMotion
+} EventType;
 
 typedef struct event
 {
