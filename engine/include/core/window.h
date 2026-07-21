@@ -13,7 +13,7 @@ void window_set_visible(Window *window, bool is_visible);
 const char *window_get_title(Window *window);
 void *window_set_title(Window *window, const char *title);
 
-void window_get_size(Window *window, int *w, int *h);
+void window_get_size(Window *window, int **w, int **h);
 void window_set_size(Window *window, int w, int h);
 
 bool window_get_resizable(Window *window);
