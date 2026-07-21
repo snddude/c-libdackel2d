@@ -5,7 +5,7 @@
 EventMouseButton event_mouse_button_create(SDL_Event event)
 {
     return (EventMouseButton){
-        .pressed = event.button.clicks >= 0,
+        .pressed = event.button.clicks > 0,
         .double_click  = event.button.clicks >= 2,
         .button = event.button.button
     };
