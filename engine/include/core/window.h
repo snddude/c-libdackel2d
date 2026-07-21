@@ -2,6 +2,8 @@
 
 #include <SDL3/SDL.h>
 
+#include "math/vector2.h"
+
 typedef struct window Window;
 
 Window *window_create(const char *title, int w, int h);
@@ -13,7 +15,7 @@ void window_set_visible(Window *window, bool is_visible);
 const char *window_get_title(Window *window);
 void *window_set_title(Window *window, const char *title);
 
-void window_get_size(Window *window, int **w, int **h);
+Vector2 window_get_size(Window *window);
 void window_set_size(Window *window, int w, int h);
 
 bool window_get_resizable(Window *window);

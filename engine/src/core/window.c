@@ -3,6 +3,8 @@
 #include <SDL3/SDL.h>
 #include <stdlib.h>
 
+#include "math/vector2.h"
+
 typedef struct window
 {
     SDL_Window *ptr_sdl_window;
@@ -59,9 +61,12 @@ void *window_set_title(Window *window, const char *title)
     SDL_SetWindowTitle(window->ptr_sdl_window, title);
 }
 
-void window_get_size(Window *window, int **w, int **h)
+Vector2 window_get_size(Window *window)
 {
-    SDL_GetWindowSize(window->ptr_sdl_window, *w, *h);
+    int w, h;
+    SDL_GetWindowSize(window->ptr_sdl_window, &w, &h);
+
+    return (Vector2){(float)w, (float)h};
 }
 
 void window_set_size(Window *window, int w, int h)
