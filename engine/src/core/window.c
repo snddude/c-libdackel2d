@@ -33,10 +33,7 @@ void window_destroy(Window *window)
 
 bool window_is_visible(Window *window)
 {
-    SDL_WindowFlags flags = SDL_GetWindowFlags(window->ptr_sdl_window);
-    bool visible = flags & SDL_WINDOW_HIDDEN;
-
-    return visible != SDL_WINDOW_HIDDEN;
+    return !SDL_GetWindowFlags(window->ptr_sdl_window) & SDL_WINDOW_HIDDEN;
 }
 
 void window_set_visible(Window *window, bool is_visible)
@@ -66,10 +63,7 @@ void window_set_size(Window *window, int w, int h)
 
 bool window_get_resizable(Window *window)
 {
-    SDL_WindowFlags flags = SDL_GetWindowFlags(window->ptr_sdl_window);
-    bool resizable = flags & SDL_WINDOW_RESIZABLE;
-
-    return resizable == SDL_WINDOW_RESIZABLE;
+    return SDL_GetWindowFlags(window->ptr_sdl_window) & SDL_WINDOW_RESIZABLE;
 }
 
 void window_set_resizable(Window *window, bool is_resizable)
@@ -79,10 +73,7 @@ void window_set_resizable(Window *window, bool is_resizable)
 
 bool window_get_fullscreen(Window *window)
 {
-    SDL_WindowFlags flags = SDL_GetWindowFlags(window->ptr_sdl_window);
-    bool fullscreen = flags & SDL_WINDOW_FULLSCREEN;
-
-    return fullscreen == SDL_WINDOW_FULLSCREEN;
+    return SDL_GetWindowFlags(window->ptr_sdl_window) & SDL_WINDOW_FULLSCREEN;
 }
 
 void window_set_fullscreen(Window *window, bool is_fullscreen)
