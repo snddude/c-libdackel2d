@@ -104,4 +104,5 @@ typedef enum key_code
     NumNine      = SDLK_KP_9,
     NumZero      = SDLK_KP_0,
     NumPeriod    = SDLK_KP_PERIOD
+
 } KeyCode;
