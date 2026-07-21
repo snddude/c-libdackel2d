@@ -1,6 +1,6 @@
 #pragma once
 
-#include "core/window.h"`
+#include "core/window.h"
 
 typedef struct application Application;
 
