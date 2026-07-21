@@ -54,3 +54,8 @@ void application_run(Application *application)
         SDL_RenderPresent(renderer);
     }
 }
+
+Window *application_get_main_window(Application *application)
+{
+    return application->ptr_main_window;
+}
