@@ -27,6 +27,8 @@ void window_destroy(Window *window)
 {
     SDL_DestroyRenderer(window->ptr_sdl_renderer);
     SDL_DestroyWindow(window->ptr_sdl_window);
+
+    free(window);
 }
 
 bool window_is_visible(Window *window)
