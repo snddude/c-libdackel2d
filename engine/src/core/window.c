@@ -1,6 +1,7 @@
-#include "window.h"
+#include "core/window.h"
 
 #include <SDL3/SDL.h>
+#include <stdlib.h>
 
 typedef struct window
 {
@@ -13,7 +14,7 @@ Window *window_create(const char *title, int w, int h)
 {
     Window *window = malloc(sizeof(Window));
 
-    if (!SDL_CreateWindowAndRenderer(title, w, h, SDL_WINDOW_VULKAN | SDL_WINDOW_HIDDEN, window->ptr_sdl_window, window->ptr_sdl_renderer))
+    if (!SDL_CreateWindowAndRenderer(title, w, h, SDL_WINDOW_VULKAN | SDL_WINDOW_HIDDEN, &window->ptr_sdl_window, &window->ptr_sdl_renderer))
     {
         SDL_Log("Failed to create window or renderer: %s", SDL_GetError());
         return NULL;
