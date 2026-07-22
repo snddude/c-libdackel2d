@@ -1,11 +1,14 @@
 #pragma once
 
+#include <SDL3/SDL.h>
+
 typedef enum event_type
 {
-    Event_Key = 0,
-    Event_MouseButton,
-    Event_MouseWheel,
-    Event_MouseMotion
+    EventType_Unhandled = 0,
+    EventType_Key,
+    EventType_MouseButton,
+    EventType_MouseWheel,
+    EventType_MouseMotion
 
 } EventType;
 
@@ -15,3 +18,5 @@ typedef struct event
     EventType type;
 
 } Event;
+
+Event event_create(SDL_Event native_event);
