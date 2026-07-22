@@ -1,5 +1,7 @@
 #include "core/application.h"
+
 #include "core/window.h"
+#include "events/event.h"
 
 #include <SDL3/SDL.h>
 #include <stdlib.h>
@@ -34,17 +36,22 @@ void application_destroy(Application *application)
 
 void application_run(Application *application)
 {
-    bool running = true;
-
-    SDL_Event event;
+    SDL_Event native_event;
     SDL_Renderer *renderer = window_get_renderer(application->ptr_main_window);
 
     window_set_visible(application->ptr_main_window, true);
 
-    while (running)
+    while (1)
     {
-        while (SDL_PollEvent(&event))
-            running = event.type != SDL_EVENT_QUIT;
+        while (SDL_PollEvent(&native_event))
+        {
+            if (native_event.type == SDL_EVENT_QUIT)
+                goto End;
+
+            Event event = event_create(native_event);
+
+            // Dispatch event to application layers...
+        }
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
@@ -53,6 +60,7 @@ void application_run(Application *application)
 
         SDL_RenderPresent(renderer);
     }
+End:
 }
 
 Window *application_get_main_window(Application *application)
