@@ -1,19 +1,15 @@
 #include <dackel2d.h>
-
-#include "test_layer.h"
+#include "sandbox.h"
 
 int main(void)
 {
-    Application *app = application_create();
+    Application *sandbox = sandbox_create();
 
-    if (app == NULL)
+    if (sandbox == NULL)
         return 1;
 
-    Layer test_layer = test_layer_create();
-    application_push_layer(app, test_layer);
-
-    application_run(app);
-    application_destroy(app);
+    application_run(sandbox);
+    application_destroy(sandbox);
 
     return 0;
 }
