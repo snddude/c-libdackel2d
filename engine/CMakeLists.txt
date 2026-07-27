@@ -4,6 +4,7 @@ project(engine)
 add_subdirectory(vendor/SDL)
 add_subdirectory(vendor/SDL_image)
 add_subdirectory(vendor/SDL_ttf)
+add_subdirectory(vendor/stb_ds)
 
 file(GLOB_RECURSE SRC_FILES src/*.c)
 add_library(${PROJECT_NAME} STATIC ${SRC_FILES})
@@ -14,3 +15,4 @@ target_link_libraries(${PROJECT_NAME} PUBLIC m) # math.h
 target_link_libraries(${PROJECT_NAME} PUBLIC SDL3::SDL3)
 target_link_libraries(${PROJECT_NAME} PUBLIC SDL3_image::SDL3_image)
 target_link_libraries(${PROJECT_NAME} PUBLIC SDL3_ttf::SDL3_ttf)
+target_link_libraries(${PROJECT_NAME} PUBLIC stb_ds) # Typesafe containers by Sean Barrett
