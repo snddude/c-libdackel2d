@@ -1,14 +1,17 @@
 #include "core/application.h"
 
 #include "core/window.h"
+#include "core/layer.h"
 #include "events/event.h"
 
 #include <SDL3/SDL.h>
+#include <stb_ds.h>
 #include <stdlib.h>
 
 typedef struct application
 {
     Window *ptr_main_window;
+    Layer *layer_stack;
 
 } Application;
 
@@ -22,6 +25,7 @@ Application *application_create()
 
     Application *application = malloc(sizeof(Application));
     application->ptr_main_window = window_create("Engine", 640, 480);
+    application->layer_stack = NULL;
 
     return application;
 }
@@ -29,6 +33,16 @@ Application *application_create()
 void application_destroy(Application *application)
 {
     window_destroy(application->ptr_main_window);
+
+    for (size_t i = 0; i < arrlen(application->layer_stack); i++)
+    {
+        Layer layer = application->layer_stack[i];
+        layer_on_detach(layer);
+
+        arrdel(application->layer_stack, i);
+    }
+
+    arrfree(application->layer_stack);   
     free(application);
 
     SDL_Quit();
@@ -43,6 +57,8 @@ void application_run(Application *application)
 
     while (1)
     {
+        size_t layer_count = arrlen(application->layer_stack);
+
         while (SDL_PollEvent(&native_event))
         {
             if (native_event.type == SDL_EVENT_QUIT)
@@ -50,17 +66,44 @@ void application_run(Application *application)
 
             Event event = event_create(native_event);
 
-            // Dispatch event to application layers...
+            for (int i = layer_count - 1; i >= 0; i--)
+                if (layer_process_event(application->layer_stack[i], event))
+                    break;
         }
+
+        for (size_t i = 0; i < layer_count; i++)
+            // TODO: implement delta time calculation.
+            layer_process(application->layer_stack[i], 16.0);
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
-        // ...
+        for (size_t i = 0; i < layer_count; i++)
+            layer_render(application->layer_stack[i], renderer);
 
         SDL_RenderPresent(renderer);
     }
 End:
+}
+
+void application_push_layer(Application *application, Layer layer)
+{
+    arrput(application->layer_stack, layer);
+    layer_on_attach(layer);
+}
+
+void application_pop_layer(Application *application)
+{
+    Layer layer = arrpop(application->layer_stack);
+    layer_on_detach(layer);
+}
+
+void application_pop_layer_at(Application *application, size_t index)
+{
+    Layer layer = application->layer_stack[index];
+    layer_on_detach(layer);
+
+    arrdel(application->layer_stack, index);
 }
 
 Window *application_get_main_window(Application *application)
