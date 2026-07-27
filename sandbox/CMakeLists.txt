@@ -5,3 +5,4 @@ file(GLOB_RECURSE SRC_FILES src/*.c)
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE engine)
+target_include_directories(${PROJECT_NAME} PRIVATE include)
