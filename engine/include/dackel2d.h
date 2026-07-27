@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core/window.h"
+#include "core/layer.h"
 #include "core/application.h"
 
 #include "input/key_code.h"
