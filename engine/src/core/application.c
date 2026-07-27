@@ -50,6 +50,10 @@ void application_destroy(Application *application)
 
 void application_run(Application *application)
 {
+    double delta;
+
+    Uint64 last = 0;
+	Uint64 now = SDL_GetPerformanceCounter();
     SDL_Event native_event;
     SDL_Renderer *renderer = window_get_renderer(application->ptr_main_window);
 
@@ -57,6 +61,10 @@ void application_run(Application *application)
 
     while (1)
     {
+		last = now;
+		now = SDL_GetPerformanceCounter();
+		delta = (double)(now - last) / (double)SDL_GetPerformanceFrequency();
+
         size_t layer_count = arrlen(application->layer_stack);
 
         while (SDL_PollEvent(&native_event))
@@ -72,8 +80,7 @@ void application_run(Application *application)
         }
 
         for (size_t i = 0; i < layer_count; i++)
-            // TODO: implement delta time calculation.
-            layer_process(application->layer_stack[i], 16.0);
+            layer_process(application->layer_stack[i], delta);
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
