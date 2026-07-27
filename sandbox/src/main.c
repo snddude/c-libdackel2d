@@ -1,4 +1,3 @@
-#include <dackel2d.h>
 #include "sandbox.h"
 
 int main(void)
