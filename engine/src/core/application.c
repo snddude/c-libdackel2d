@@ -34,7 +34,7 @@ void application_destroy(Application *application)
 {
     window_destroy(application->ptr_main_window);
 
-    for (size_t i = 0; i < arrlen(application->layer_stack); i++)
+    for (long int i = 0; i < arrlen(application->layer_stack); i++)
     {
         Layer layer = application->layer_stack[i];
         layer_on_detach(layer);

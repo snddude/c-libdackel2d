@@ -43,7 +43,7 @@ void window_destroy(Window *window)
 
 bool window_is_visible(Window *window)
 {
-    return !SDL_GetWindowFlags(window->ptr_sdl_window) & SDL_WINDOW_HIDDEN;
+    return (!SDL_GetWindowFlags(window->ptr_sdl_window)) & SDL_WINDOW_HIDDEN;
 }
 
 void window_set_visible(Window *window, bool is_visible)
@@ -56,7 +56,7 @@ const char *window_get_title(Window *window)
     return SDL_GetWindowTitle(window->ptr_sdl_window);
 }
 
-void *window_set_title(Window *window, const char *title)
+void window_set_title(Window *window, const char *title)
 {
     SDL_SetWindowTitle(window->ptr_sdl_window, title);
 }

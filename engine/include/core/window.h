@@ -13,7 +13,7 @@ bool window_is_visible(Window *window);
 void window_set_visible(Window *window, bool is_visible);
 
 const char *window_get_title(Window *window);
-void *window_set_title(Window *window, const char *title);
+void window_set_title(Window *window, const char *title);
 
 Vector2 window_get_size(Window *window);
 void window_set_size(Window *window, int w, int h);
