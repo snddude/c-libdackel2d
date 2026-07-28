@@ -75,8 +75,12 @@ void application_run(Application *application)
             Event event = event_create(native_event);
 
             for (int i = layer_count - 1; i >= 0; i--)
-                if (layer_process_event(application->layer_stack[i], event))
+            {
+                layer_process_event(application->layer_stack[i], &event);
+
+                if (event.handled)
                     break;
+            }
         }
 
         for (size_t i = 0; i < layer_count; i++)

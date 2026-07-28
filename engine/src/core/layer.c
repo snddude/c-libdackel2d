@@ -15,12 +15,10 @@ void layer_on_detach(Layer layer)
         layer.on_detach();
 }
 
-bool layer_process_event(Layer layer, Event event)
+void layer_process_event(Layer layer, Event *event)
 {
     if (layer.process_event != NULL)
-        return layer.process_event(event);
-
-    return false;
+        layer.process_event(event);
 }
 
 void layer_process(Layer layer, double delta)
