@@ -13,25 +13,29 @@ static void on_detach()
     SDL_Log("Goodbye from test layer!");
 }
 
-static bool process_event(Event event)
+static void process_event(Event *event)
 {
-    switch (event.type)
+    switch (event->type)
     {
         case EventType_MouseMotion:
-            EventMouseMotion *mm = (EventMouseMotion *)event.super_type;
+            EventMouseMotion *mm = (EventMouseMotion *)event->super_type;
             SDL_Log("[INFO] x: %.2f y: %.2f", mm->absolute.x, mm->absolute.y);
+            event->handled = true;
             break;
         case EventType_Key:
-            EventKey *k = (EventKey *)event.super_type;
+            EventKey *k = (EventKey *)event->super_type;
 
             if (!k->echo && k->pressed)
+            {
                 SDL_Log(k->label);
+                event->handled = true;
+            }
     }
 }
 
 static void process(double delta)
 {
-    SDL_Log("[INFO] delta time: %f", delta);
+    // SDL_Log("[INFO] delta time: %f", delta);
 }
 
 static void render(SDL_Renderer *renderer)
