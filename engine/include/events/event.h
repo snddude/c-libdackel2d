@@ -14,6 +14,7 @@ typedef enum event_type
 
 typedef struct event
 {
+    bool handled;
     void *super_type;
     EventType type;
 

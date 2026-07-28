@@ -8,7 +8,7 @@
 Event event_create(SDL_Event native_event)
 {
     Event event;
-
+    event.handled = false;
     switch (native_event.type)
     {
         case SDL_EVENT_KEY_DOWN: case SDL_EVENT_KEY_UP:
