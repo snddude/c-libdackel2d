@@ -2,13 +2,13 @@
 
 #include <SDL3/SDL.h>
 
-#define VECTOR2_ZERO Vector2{0.0f, 0.0f}
-#define VECTOR2_ONE Vector2{1.0f, 1.0f}
+#define VECTOR2_ZERO (Vector2){0.0f, 0.0f}
+#define VECTOR2_ONE (Vector2){1.0f, 1.0f}
 
-#define VECTOR2_UP Vector2{0.0f, -1.0f}
-#define VECTOR2_LEFT Vector2{-1.0f, 0.0f}
-#define VECTOR2_DOWN Vector2{0.0f, 1.0f}
-#define VECTOR2_RIGHT Vector2{1.0f, 0.0f}
+#define VECTOR2_UP (Vector2){0.0f, -1.0f}
+#define VECTOR2_LEFT (Vector2){-1.0f, 0.0f}
+#define VECTOR2_DOWN (Vector2){0.0f, 1.0f}
+#define VECTOR2_RIGHT (Vector2){1.0f, 0.0f}
 
 typedef struct vector2
 {
