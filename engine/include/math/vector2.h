@@ -21,7 +21,7 @@ Vector2 vector2_from_point(SDL_Point point);
 Vector2 vector2_from_fpoint(SDL_FPoint point);
 
 float vector2_length(Vector2 vector);
-void vector2_normalize(Vector2 **vector);
+void vector2_normalize(Vector2 *vector);
 
 Vector2 vector2_add(Vector2 a, Vector2 b);
 Vector2 vector2_subtract(Vector2 a, Vector2 b);

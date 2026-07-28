@@ -18,15 +18,15 @@ float vector2_length(Vector2 vector)
     return sqrt(pow(vector.x, 2) + pow(vector.y, 2));
 }
 
-void vector2_normalize(Vector2 **vector)
+void vector2_normalize(Vector2 *vector)
 {
-    float len = vector2_length(**vector) == 0.0f;
+    float len = vector2_length(*vector) == 0.0f;
 
     if (len == 0.0f)
         return;
 
-    (*vector)->x /= len;
-    (*vector)->y /= len;
+    vector->x /= len;
+    vector->y /= len;
 }
 
 Vector2 vector2_add(Vector2 a, Vector2 b)
