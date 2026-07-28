@@ -17,25 +17,23 @@ static void process_event(Event *event)
 {
     switch (event->type)
     {
-        case EventType_MouseMotion:
-            EventMouseMotion *mm = (EventMouseMotion *)event->super_type;
-            SDL_Log("[INFO] x: %.2f y: %.2f", mm->absolute.x, mm->absolute.y);
-            event->handled = true;
+        case EventType_MouseButton:
+            EventMouseButton *mb = (EventMouseButton *)event->super_type;           
+            if (mb->pressed)
+            {
+                SDL_Log("%d", mb->button);
+                event->handled = true;
+            }
             break;
         case EventType_Key:
             EventKey *k = (EventKey *)event->super_type;
-
             if (!k->echo && k->pressed)
             {
                 SDL_Log(k->label);
                 event->handled = true;
             }
+            break;
     }
-}
-
-static void process(double delta)
-{
-    // SDL_Log("[INFO] delta time: %f", delta);
 }
 
 static void render(SDL_Renderer *renderer)
@@ -52,7 +50,7 @@ Layer test_layer_create()
         .on_attach = on_attach,
         .on_detach = on_detach,
         .process_event = process_event,
-        .process = process,
+        .process = NULL,
         .render = render
     };
 }
