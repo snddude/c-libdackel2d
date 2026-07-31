@@ -4,6 +4,8 @@ project(engine)
 set(BUILD_SHARED_LIBS OFF)
 set(CMAKE_C_FLAGS "-Wall -Wextra")
 
+set(FLECS_SHARED OFF)
+
 set(SDL_X11 OFF)
 set(SDL_STATIC ON)
 set(SDL_SHARED OFF)
@@ -28,6 +30,7 @@ set(SDLTTF_VENDORED ON)
 set(SDLTTF_STRICT ON)
 
 add_subdirectory(vendor/stb_ds)
+add_subdirectory(vendor/flecs)
 add_subdirectory(vendor/SDL)
 add_subdirectory(vendor/SDL_image)
 add_subdirectory(vendor/SDL_ttf)
@@ -37,8 +40,11 @@ add_library(${PROJECT_NAME} STATIC ${SRC_FILES})
 
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 
-target_link_libraries(${PROJECT_NAME} PUBLIC m)      # math.h
-target_link_libraries(${PROJECT_NAME} PUBLIC stb_ds) # Typesafe containers by Sean Barrett
+target_link_libraries(${PROJECT_NAME} PUBLIC stb_ds)
+target_link_libraries(${PROJECT_NAME} PUBLIC flecs::flecs_static)
+
 target_link_libraries(${PROJECT_NAME} PUBLIC SDL3::SDL3)
-target_link_libraries(${PROJECT_NAME} PUBLIC SDL3_image::SDL3_image)
 target_link_libraries(${PROJECT_NAME} PUBLIC SDL3_ttf::SDL3_ttf)
+target_link_libraries(${PROJECT_NAME} PUBLIC SDL3_image::SDL3_image)
+
+target_link_libraries(${PROJECT_NAME} PUBLIC m) # math.h
