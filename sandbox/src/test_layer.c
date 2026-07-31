@@ -22,7 +22,7 @@ static void process_event(Event *event)
     switch (event->type)
     {
         case EventType_MouseButton:
-            EventMouseButton *mb = (EventMouseButton *)event->super_type;           
+            EventMouseButton *mb = (EventMouseButton *)event->sub_event;           
             if (mb->pressed)
             {
                 SDL_Log("%d", mb->button);
@@ -30,7 +30,7 @@ static void process_event(Event *event)
             }
             break;
         case EventType_Key:
-            EventKey *k = (EventKey *)event->super_type;
+            EventKey *k = (EventKey *)event->sub_event;
             if (!k->echo && k->pressed)
             {
                 SDL_Log(k->label);
