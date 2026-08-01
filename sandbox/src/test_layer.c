@@ -19,13 +19,11 @@ static void on_attach()
     entity_add_component(player, Renderable);
     entity_add_component(player, ColoredRect);
 
-    Transform *player_transform;
-    entity_get_component(player, Transform, player_transform);
+    Transform *player_transform = entity_get_component(player, Transform);
     player_transform->position = VECTOR2_ZERO;
     player_transform->scale = VECTOR2_ONE;
 
-    ColoredRect *player_visual;
-    entity_get_component(player, ColoredRect, player_visual);
+    ColoredRect *player_visual = entity_get_component(player, ColoredRect);
     player_visual->size = (Vector2){16.0f, 16.0f};
     player_visual->color = (SDL_FColor){1.0f, 0.0f, 0.0f, 1.0f};
 }
@@ -66,18 +64,14 @@ static void process(double delta)
     vector2_normalize(&input);
     Vector2 velocity = vector2_multiply(input, delta * PLAYER_SPEED);
 
-    Transform *player_transform;
-    entity_get_component(player, Transform, player_transform);
+    Transform *player_transform = entity_get_component(player, Transform);
     player_transform->position = vector2_add(player_transform->position, velocity);
 }
 
 static void render(SDL_Renderer *renderer)
 {
-    Transform *player_transform;
-    ColoredRect *player_visual;
-
-    entity_get_component(player, Transform, player_transform);
-    entity_get_component(player, ColoredRect, player_visual);
+    Transform *player_transform = entity_get_component(player, Transform);
+    ColoredRect *player_visual = entity_get_component(player, ColoredRect);
 
     SDL_FRect rect = {
         player_transform->position.x,
