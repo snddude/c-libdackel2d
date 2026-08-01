@@ -5,9 +5,8 @@
 #define entity_has_component(entity, component) \
     ecs_has(entity->ptr_ecs_world, entity->id, component)
 
-#define entity_get_component(entity, component, value) \
-    while(!entity_has_component(entity, component)) \
-        { value = ecs_get(entity->ptr_ecs_world, entity->id, component); }
+#define entity_get_component(entity, component) \
+    ecs_get(entity->ptr_ecs_world, entity->id, component)
 
 #define entity_add_component(entity, component) \
     while(!entity_has_component(entity, component)) \
