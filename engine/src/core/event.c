@@ -1,9 +1,4 @@
-#include "events/event.h"
-
-#include "events/event_key.h"
-#include "events/event_mouse_button.h"
-#include "events/event_mouse_wheel.h"
-#include "events/event_mouse_motion.h"
+#include "core/event.h"
 
 Event event_create(SDL_Event native_event)
 {
