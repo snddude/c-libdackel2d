@@ -1,8 +1,6 @@
 #include "core/application.h"
 
-#include "core/window.h"
-#include "core/layer.h"
-#include "events/event.h"
+#include "core/event.h"
 
 #include <SDL3/SDL.h>
 #include <stb_ds.h>
