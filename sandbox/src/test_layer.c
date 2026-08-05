@@ -40,18 +40,16 @@ static void process_event(Event *event)
     switch (event->type)
     {
         case EventType_MouseButton:
-            EventMouseButton *mb = (EventMouseButton *)event->sub_event;           
-            if (mb->pressed)
+            if (event->mouse_button.pressed)
             {
-                SDL_Log("%d", mb->button);
+                SDL_Log("%d", event->mouse_button.button);
                 event->handled = true;
             }
             break;
         case EventType_Key:
-            EventKey *k = (EventKey *)event->sub_event;
-            if (!k->echo && k->pressed)
+            if (!event->key.echo && event->key.pressed)
             {
-                SDL_Log(k->label);
+                SDL_Log(event->key.label);
                 event->handled = true;
             }
             break;

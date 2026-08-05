@@ -1,8 +1,5 @@
 #include "core/layer.h"
 
-#include <SDL3/SDL.h>
-#include "events/event.h"
-
 void layer_on_attach(Layer layer)
 {
     if (layer.on_attach != NULL)

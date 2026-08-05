@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SDL3/SDL.h>
-#include "events/event.h"
+#include "core/event.h"
 
 typedef struct layer
 {

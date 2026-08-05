@@ -1,8 +1,6 @@
 #include "core/application.h"
 
-#include "core/window.h"
-#include "core/layer.h"
-#include "events/event.h"
+#include "core/event.h"
 
 #include <SDL3/SDL.h>
 #include <stb_ds.h>
@@ -36,10 +34,8 @@ void application_destroy(Application *application)
 
     for (long int i = 0; i < arrlen(application->layer_stack); i++)
     {
-        Layer layer = application->layer_stack[i];
+        Layer layer = arrpop(application->layer_stack);
         layer_on_detach(layer);
-
-        arrdel(application->layer_stack, i);
     }
 
     arrfree(application->layer_stack);   
