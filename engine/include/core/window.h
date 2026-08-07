@@ -1,28 +1,32 @@
 #pragma once
 
-#include <SDL3/SDL.h>
-
 #include "math/vector2.h"
 
-typedef struct window Window;
+#include <SDL3/SDL.h>
+#include <stdbool.h>
 
-Window *window_create(const char *title, int w, int h);
-void window_destroy(Window *window);
+#define WINDOW_FLAGS SDL_WINDOW_VULKAN | SDL_WINDOW_HIDDEN
 
-bool window_is_visible(Window *window);
-void window_set_visible(Window *window, bool is_visible);
+typedef struct
+{
+    SDL_Window *sdl_window_p;
+    SDL_Renderer *sdl_renderer_p;
+} window_t;
 
-const char *window_get_title(Window *window);
-void window_set_title(Window *window, const char *title);
+window_t window_create(const char *title, int w, int h);
+void window_destroy(window_t *self);
 
-Vector2 window_get_size(Window *window);
-void window_set_size(Window *window, int w, int h);
+bool window_get_visible(window_t *self);
+void window_set_visible(window_t *self, bool value);
 
-bool window_get_resizable(Window *window);
-void window_set_resizable(Window *window, bool is_resizable);
+bool window_get_resizable(window_t *self);
+void window_set_resizable(window_t *self, bool value);
 
-bool window_get_fullscreen(Window *window);
-void window_set_fullscreen(Window *window, bool is_fullscreen);
+bool window_get_fullscreen(window_t *self);
+void window_set_fullscreen(window_t *self, bool value);
 
-SDL_Window *window_get_native(Window *window);
-SDL_Renderer *window_get_renderer(Window *window);
+const char *window_get_title(window_t *self);
+void window_set_title(window_t *self, const char *value);
+
+Vector2 window_get_size(window_t *self);
+void window_set_size(window_t *self, int w, int h);

@@ -1,105 +1,81 @@
 #include "core/window.h"
 
-#include <SDL3/SDL.h>
-#include <stdlib.h>
-
-#include "math/vector2.h"
-
-typedef struct window
+window_t window_create(const char *title, int w, int h)
 {
-    SDL_Window *ptr_sdl_window;
-    SDL_Renderer *ptr_sdl_renderer;
+    window_t self;
 
-} Window;
-
-Window *window_create(const char *title, int w, int h)
-{
-    Window *window = malloc(sizeof(Window));
-
-    window->ptr_sdl_window = SDL_CreateWindow(title, w, h, SDL_WINDOW_VULKAN | SDL_WINDOW_HIDDEN);
-    if (window->ptr_sdl_window == NULL)
+    self.sdl_window_p = SDL_CreateWindow(title, w, h, WINDOW_FLAGS);
+    if (self.sdl_window_p == NULL)
     {
-        SDL_Log("Failed to create native window: %s", SDL_GetError());
-        return NULL;
+        SDL_Log("Failed to create native self: %s", SDL_GetError());
+        return (window_t){0};
     }
 
-    window->ptr_sdl_renderer = SDL_CreateRenderer(window->ptr_sdl_window, "vulkan");
-    if (window->ptr_sdl_renderer == NULL)
+    self.sdl_renderer_p = SDL_CreateRenderer(self.sdl_window_p, "vulkan");
+    if (self.sdl_renderer_p == NULL)
     {
         SDL_Log("Failed to create renderer: %s", SDL_GetError());
-        return NULL;
+        return (window_t){0};
     }
 
-    return window;
+    return self;
 }
 
-void window_destroy(Window *window)
+void window_destroy(window_t *self)
 {
-    SDL_DestroyRenderer(window->ptr_sdl_renderer);
-    SDL_DestroyWindow(window->ptr_sdl_window);
-
-    free(window);
+    SDL_DestroyRenderer(self->sdl_renderer_p);
+    SDL_DestroyWindow(self->sdl_window_p);
 }
 
-bool window_is_visible(Window *window)
+bool window_get_visible(window_t *self)
 {
-    return (!SDL_GetWindowFlags(window->ptr_sdl_window)) & SDL_WINDOW_HIDDEN;
+    return (!SDL_GetWindowFlags(self->sdl_window_p)) & SDL_WINDOW_HIDDEN;
 }
 
-void window_set_visible(Window *window, bool is_visible)
+void window_set_visible(window_t *self, bool value)
 {
-    is_visible ? SDL_ShowWindow(window->ptr_sdl_window) : SDL_HideWindow(window->ptr_sdl_window);
+    value ? SDL_ShowWindow(self->sdl_window_p) : SDL_HideWindow(self->sdl_window_p);
 }
 
-const char *window_get_title(Window *window)
+bool window_get_resizable(window_t *self)
 {
-    return SDL_GetWindowTitle(window->ptr_sdl_window);
+    return SDL_GetWindowFlags(self->sdl_window_p) & SDL_WINDOW_RESIZABLE;
 }
 
-void window_set_title(Window *window, const char *title)
+void window_set_resizable(window_t *self, bool value)
 {
-    SDL_SetWindowTitle(window->ptr_sdl_window, title);
+    SDL_SetWindowResizable(self->sdl_window_p, value);
 }
 
-Vector2 window_get_size(Window *window)
+bool window_get_fullscreen(window_t *self)
+{
+    return SDL_GetWindowFlags(self->sdl_window_p) & SDL_WINDOW_FULLSCREEN;
+}
+
+void window_set_fullscreen(window_t *self, bool value)
+{
+    SDL_SetWindowFullscreen(self->sdl_window_p, value);
+}
+
+const char *window_get_title(window_t *self)
+{
+    return SDL_GetWindowTitle(self->sdl_window_p);
+}
+
+void window_set_title(window_t *self, const char *value)
+{
+    SDL_SetWindowTitle(self->sdl_window_p, value);
+}
+
+Vector2 window_get_size(window_t *self)
 {
     int w, h;
-    SDL_GetWindowSize(window->ptr_sdl_window, &w, &h);
+    SDL_GetWindowSize(self->sdl_window_p, &w, &h);
 
     return (Vector2){(float)w, (float)h};
 }
 
-void window_set_size(Window *window, int w, int h)
+void window_set_size(window_t *self, int w, int h)
 {
-    SDL_SetWindowSize(window->ptr_sdl_window, w, h);
-}
-
-bool window_get_resizable(Window *window)
-{
-    return SDL_GetWindowFlags(window->ptr_sdl_window) & SDL_WINDOW_RESIZABLE;
-}
-
-void window_set_resizable(Window *window, bool is_resizable)
-{
-    SDL_SetWindowResizable(window->ptr_sdl_window, is_resizable);
-}
-
-bool window_get_fullscreen(Window *window)
-{
-    return SDL_GetWindowFlags(window->ptr_sdl_window) & SDL_WINDOW_FULLSCREEN;
-}
-
-void window_set_fullscreen(Window *window, bool is_fullscreen)
-{
-    SDL_SetWindowFullscreen(window->ptr_sdl_window, is_fullscreen);
-}
-
-SDL_Window *window_get_native(Window *window)
-{
-    return window->ptr_sdl_window;
-}
-
-SDL_Renderer *window_get_renderer(Window *window)
-{
-    return window->ptr_sdl_renderer;
+    SDL_SetWindowSize(self->sdl_window_p, w, h);
 }
