@@ -3,8 +3,11 @@
 #include "core/window.h"
 #include "core/layer.h"
 
+#include <stddef.h>
+
 typedef struct application
 {
+    size_t fps_limit;
     window_t main_window;
     Layer *layer_stack;
 } application_t;

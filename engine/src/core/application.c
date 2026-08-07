@@ -14,6 +14,8 @@ application_t application_create()
     }
 
     application_t app;
+
+    app.fps_limit = 0;
     app.main_window = window_create("Engine", 640, 480);
     app.layer_stack = NULL;
 
@@ -76,6 +78,9 @@ void application_run(application_t *self)
             layer_render(self->layer_stack[i], renderer);
 
         SDL_RenderPresent(renderer);
+
+        if (self->fps_limit > 0)
+            SDL_Delay(1000 / self->fps_limit);
     }
 End:
 }
