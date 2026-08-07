@@ -6,54 +6,45 @@
 #include <stb_ds.h>
 #include <stdlib.h>
 
-typedef struct application
-{
-    Window *ptr_main_window;
-    Layer *layer_stack;
-
-} Application;
-
-Application *application_create()
+application_t application_create()
 {
     if (!SDL_Init(SDL_INIT_VIDEO))
     {
         SDL_Log("Failed to initialize SDL: %s", SDL_GetError());
-        return NULL;
+        return (application_t){0};
     }
 
-    Application *application = malloc(sizeof(Application));
-    application->ptr_main_window = window_create("Engine", 640, 480);
-    application->layer_stack = NULL;
+    application_t app;
+    app.ptr_main_window = window_create("Engine", 640, 480);
+    app.layer_stack = NULL;
 
-    return application;
+    return app;
 }
 
-void application_destroy(Application *application)
+void application_destroy(application_t *self)
 {
-    window_destroy(application->ptr_main_window);
+    window_destroy(self->ptr_main_window);
 
-    for (long int i = 0; i < arrlen(application->layer_stack); i++)
+    for (long int i = 0; i < arrlen(self->layer_stack); i++)
     {
-        Layer layer = arrpop(application->layer_stack);
+        Layer layer = arrpop(self->layer_stack);
         layer_on_detach(layer);
     }
 
-    arrfree(application->layer_stack);   
-    free(application);
-
+    arrfree(self->layer_stack);   
     SDL_Quit();
 }
 
-void application_run(Application *application)
+void application_run(application_t *self)
 {
     double delta;
 
     Uint64 last = 0;
 	Uint64 now = SDL_GetPerformanceCounter();
     SDL_Event native_event;
-    SDL_Renderer *renderer = window_get_renderer(application->ptr_main_window);
+    SDL_Renderer *renderer = window_get_renderer(self->ptr_main_window);
 
-    window_set_visible(application->ptr_main_window, true);
+    window_set_visible(self->ptr_main_window, true);
 
     while (1)
     {
@@ -61,7 +52,7 @@ void application_run(Application *application)
 		now = SDL_GetPerformanceCounter();
 		delta = (double)(now - last) / (double)SDL_GetPerformanceFrequency();
 
-        size_t layer_count = arrlen(application->layer_stack);
+        size_t layer_count = arrlen(self->layer_stack);
 
         while (SDL_PollEvent(&native_event))
         {
@@ -72,7 +63,7 @@ void application_run(Application *application)
 
             for (int i = layer_count - 1; i >= 0; i--)
             {
-                layer_process_event(application->layer_stack[i], &event);
+                layer_process_event(self->layer_stack[i], &event);
 
                 if (event.handled)
                     break;
@@ -80,40 +71,40 @@ void application_run(Application *application)
         }
 
         for (size_t i = 0; i < layer_count; i++)
-            layer_process(application->layer_stack[i], delta);
+            layer_process(self->layer_stack[i], delta);
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
         for (size_t i = 0; i < layer_count; i++)
-            layer_render(application->layer_stack[i], renderer);
+            layer_render(self->layer_stack[i], renderer);
 
         SDL_RenderPresent(renderer);
     }
 End:
 }
 
-void application_push_layer(Application *application, Layer layer)
+void application_push_layer(application_t *self, Layer layer)
 {
-    arrput(application->layer_stack, layer);
+    arrput(self->layer_stack, layer);
     layer_on_attach(layer);
 }
 
-void application_pop_layer(Application *application)
+void application_pop_layer(application_t *self)
 {
-    Layer layer = arrpop(application->layer_stack);
+    Layer layer = arrpop(self->layer_stack);
     layer_on_detach(layer);
 }
 
-void application_pop_layer_at(Application *application, size_t index)
+void application_pop_layer_at(application_t *self, size_t index)
 {
-    Layer layer = application->layer_stack[index];
+    Layer layer = self->layer_stack[index];
     layer_on_detach(layer);
 
-    arrdel(application->layer_stack, index);
+    arrdel(self->layer_stack, index);
 }
 
-Window *application_get_main_window(Application *application)
+Window *application_get_main_window(application_t *self)
 {
-    return application->ptr_main_window;
+    return self->ptr_main_window;
 }

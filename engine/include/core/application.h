@@ -3,15 +3,20 @@
 #include "core/window.h"
 #include "core/layer.h"
 
-typedef struct application Application;
+typedef struct application
+{
+    Window *ptr_main_window;
+    Layer *layer_stack;
 
-Application *application_create();
-void application_destroy(Application *application);
+} application_t;
 
-void application_run(Application *application);
+application_t application_create();
+void application_destroy(application_t *self);
 
-void application_push_layer(Application *application, Layer layer);
-void application_pop_layer(Application *application);
-void application_pop_layer_at(Application *application, size_t index);
+void application_run(application_t *self);
 
-Window *application_get_main_window(Application *application);
+void application_push_layer(application_t *self, Layer layer);
+void application_pop_layer(application_t *self);
+void application_pop_layer_at(application_t *self, size_t index);
+
+Window *application_get_main_window(application_t *self);
