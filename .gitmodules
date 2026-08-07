@@ -10,3 +10,7 @@
 	path = engine/vendor/SDL_ttf
 	url = https://github.com/libsdl-org/SDL_ttf.git
 	ignore = dirty
+[submodule "engine/vendor/flecs"]
+	path = engine/vendor/flecs
+	url = https://github.com/SanderMertens/flecs.git
+	ignore = dirty

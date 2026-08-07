@@ -10,3 +10,7 @@
 #include "input/mouse_button.h"
 
 #include "math/vector2.h"
+
+#include "scene/components.h"
+#include "scene/entity.h"
+#include "scene/scene.h"
