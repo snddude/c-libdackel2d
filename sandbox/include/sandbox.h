@@ -2,4 +2,4 @@
 
 #include <dackel2d.h>
 
-Application *sandbox_create();
+application_t sandbox_create();
