@@ -1,31 +1,31 @@
 #include "core/layer.h"
 
-void layer_on_attach(Layer layer)
+void layer_on_attach(layer_t *self)
 {
-    if (layer.on_attach != NULL)
-        layer.on_attach();
+    if (self->on_attach != NULL)
+        self->on_attach();
 }
 
-void layer_on_detach(Layer layer)
+void layer_on_detach(layer_t *self)
 {
-    if (layer.on_detach != NULL)
-        layer.on_detach();
+    if (self->on_detach != NULL)
+        self->on_detach();
 }
 
-void layer_process_event(Layer layer, Event *event)
+void layer_process_event(layer_t *self, Event *event)
 {
-    if (layer.process_event != NULL)
-        layer.process_event(event);
+    if (self->process_event != NULL)
+        self->process_event(event);
 }
 
-void layer_process(Layer layer, double delta)
+void layer_process(layer_t *self, double delta)
 {
-    if (layer.process != NULL)
-        layer.process(delta);
+    if (self->process != NULL)
+        self->process(delta);
 }
 
-void layer_render(Layer layer, SDL_Renderer *renderer)
+void layer_render(layer_t *self, SDL_Renderer *renderer)
 {
-    if (layer.render != NULL)
-        layer.render(renderer);
+    if (self->render != NULL)
+        self->render(renderer);
 }
