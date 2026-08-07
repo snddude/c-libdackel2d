@@ -4,6 +4,9 @@
 #include "core/layer.h"
 
 #include <stddef.h>
+#include <stdbool.h>
+
+#define APPLICATION_INIT_FLAGS SDL_INIT_VIDEO
 
 typedef struct application
 {
@@ -12,7 +15,7 @@ typedef struct application
     layer_t *layer_stack;
 } application_t;
 
-application_t application_create();
+bool application_init(application_t *self);
 void application_destroy(application_t *self);
 
 void application_run(application_t *self);

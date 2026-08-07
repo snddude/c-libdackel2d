@@ -5,21 +5,23 @@
 #include <SDL3/SDL.h>
 #include <stb_ds.h>
 
-application_t application_create()
+bool application_init(application_t *self)
 {
-    if (!SDL_Init(SDL_INIT_VIDEO))
+    if (!SDL_Init(APPLICATION_INIT_FLAGS))
     {
         SDL_Log("Failed to initialize SDL: %s", SDL_GetError());
-        return (application_t){0};
+        return false;
     }
 
-    application_t app;
+    window_t window;
+    if (!window_init(&window, "Engine", 640, 480))
+        return false;
 
-    app.fps_limit = 0;
-    app.main_window = window_create("Engine", 640, 480);
-    app.layer_stack = NULL;
+    self->fps_limit = 0;
+    self->main_window = window;
+    self->layer_stack = NULL;
 
-    return app;
+    return true;
 }
 
 void application_destroy(application_t *self)
