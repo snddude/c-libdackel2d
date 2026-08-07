@@ -2,4 +2,4 @@
 
 #include <dackel2d.h>
 
-Layer test_layer_create();
+layer_t test_layer_create();
