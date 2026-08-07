@@ -2,25 +2,25 @@
 
 #include <flecs.h>
 
-#define entity_has_component(entity, component) \
-    ecs_has(entity->ptr_ecs_world, entity->id, component)
+#define entity_has_component(self, component) \
+    ecs_has((self)->ptr_ecs_world, (self)->id, (component))
 
-#define entity_get_component(entity, component) \
-    ecs_get(entity->ptr_ecs_world, entity->id, component)
+#define entity_get_component(self, component) \
+    ecs_get((self)->ptr_ecs_world, (self)->id, (component))
 
-#define entity_add_component(entity, component) \
-    while(!entity_has_component(entity, component)) \
-        { ecs_add(entity->ptr_ecs_world, entity->id, component); }
+#define entity_add_component(self, component) \
+    while(!entity_has_component((self), (component))) \
+        { ecs_add((self)->ptr_ecs_world, (self)->id, (component)); }
 
-#define entity_remove_component(entity, component) \
-    while(entity_has_component(entity, component)) \
-        { ecs_remove(entity->ptr_ecs_world, entity->id, component); }
+#define entity_remove_component(self, component) \
+    while(entity_has_component((self), (component))) \
+        { ecs_remove((self)->ptr_ecs_world, (self)->id, (component)); }
 
-typedef struct entity {
+typedef struct 
+{
     ecs_entity_t id;
-    ecs_world_t *ptr_ecs_world;
+    ecs_world_t *ecs_world_p;
+} entity_t;
 
-} Entity;
-
-Entity *entity_create(ecs_world_t *ptr_ecs_world);
-void entity_destroy(Entity *entity);
+entity_t entity_create(ecs_world_t *ecs_world_p);
+void entity_destroy(entity_t *self);

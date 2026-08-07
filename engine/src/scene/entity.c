@@ -1,22 +1,14 @@
 #include "scene/entity.h"
 
-#include "scene/components.h"
-
-#include <flecs.h>
-#include <stdlib.h>
-
-Entity *entity_create(ecs_world_t *ptr_ecs_world)
+entity_t entity_create(ecs_world_t *ecs_world_p)
 {
-    Entity *entity = malloc(sizeof(Entity));
-
-    entity->id = ecs_new(ptr_ecs_world);
-    entity->ptr_ecs_world = ptr_ecs_world;
-
-    return entity;
+    return (entity_t) {
+        .id = ecs_new(ecs_world_p),
+        .ecs_world_p = ecs_world_p
+    };
 }
 
-void entity_destroy(Entity *entity)
+void entity_destroy(entity_t *self)
 {
-    ecs_delete(entity->ptr_ecs_world, entity->id);
-    free(entity);
+    ecs_delete(self->ecs_world_p, self->id);
 }
