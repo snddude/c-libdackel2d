@@ -1,52 +1,48 @@
 #include "scene/scene.h"
 
 #include "scene/components.h"
-#include "scene/entity.h"
 
 #include <stb_ds.h>
-#include <flecs.h>
-#include <stdlib.h>
 
-typedef struct scene {
-    Entity **entities;
-    ecs_world_t *ecs_world;
-
-} Scene;
-
-Scene *scene_create()
+scene_t scene_create()
 {
-    Scene *scene = malloc(sizeof(Scene));
-    scene->entities = NULL;
+    scene_t scene;
 
-    scene->ecs_world = ecs_init();
-    register_components(scene->ecs_world);
+    scene.entities = NULL;
+    scene.ecs_world = ecs_init();
+
+    register_components(scene.ecs_world);
 
     return scene;
 }
 
-void scene_destroy(Scene *scene)
+void scene_destroy(scene_t *self)
 {
-    arrfree(scene->entities);
-    ecs_fini(scene->ecs_world);
-
-    free(scene);
+    arrfree(self->entities);
+    ecs_fini(self->ecs_world);
 }
 
-Entity *scene_create_entity(Scene *scene)
+entity_t scene_create_entity(scene_t *self)
 {
-    Entity *entity = entity_create(scene->ecs_world);
-    arrput(scene->entities, entity);
+    entity_t entity = entity_create(self->ecs_world);
+    arrput(self->entities, entity);
 
     return entity;
 }
 
-void scene_destroy_entity(Scene *scene, Entity *entity)
+void scene_destroy_entity(scene_t *self, entity_t *entity)
 {
-    for (long int i = 0; i < arrlen(scene->entities); i++)
-        if (entity->id == scene->entities[i]->id)
+    for (long int i = 0; i < arrlen(self->entities); i++)
+        if (entity->id == self->entities[i].id)
         {
-            arrdel(scene->entities, i);
+            arrdel(self->entities, i);
             entity_destroy(entity);
             break;
         }
+}
+
+void scene_render(scene_t *self, SDL_Renderer *renderer)
+{
+    // Requires implementation of renderer methods for
+    // the colored rect and sprite components at least.
 }

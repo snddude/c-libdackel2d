@@ -3,14 +3,17 @@
 #include "scene/entity.h"
 
 #include <SDL3/SDL.h>
+#include <stdbool.h>
 
-typedef struct scene Scene;
+typedef struct scene {
+    entity_t *entities;
+    ecs_world_t *ecs_world;
+} scene_t;
 
-Scene *scene_create();
-void scene_destroy(Scene *scene);
+scene_t scene_create();
+void scene_destroy(scene_t *self);
 
-Entity *scene_create_entity(Scene *scene);
-void scene_destroy_entity(Scene *scene, Entity *entity);
+entity_t scene_create_entity(scene_t *self);
+void scene_destroy_entity(scene_t *self, entity_t *entity);
 
-void scene_process(Scene *scene, double delta);
-void scene_render(Scene *scene, SDL_Renderer *renderer);
+void scene_render(scene_t *self, SDL_Renderer *renderer);
