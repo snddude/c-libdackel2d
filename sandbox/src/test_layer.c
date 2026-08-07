@@ -17,7 +17,7 @@ static void on_detach()
     SDL_Log("Goodbye from test layer!");
 }
 
-static void process_event(Event *event)
+static void process_event(event_t *event)
 {
     switch (event->type)
     {
