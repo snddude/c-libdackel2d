@@ -1,6 +1,5 @@
 #include "math/vector2.h"
 
-#include <SDL3/SDL.h>
 #include <math.h>
 
 Vector2 vector2_from_point(SDL_Point point)

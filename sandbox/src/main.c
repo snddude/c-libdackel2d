@@ -2,13 +2,13 @@
 
 int main(void)
 {
-    Application *sandbox = sandbox_create();
+    application_t sandbox;
 
-    if (sandbox == NULL)
+    if (!sandbox_init(&sandbox))
         return 1;
 
-    application_run(sandbox);
-    application_destroy(sandbox);
+    application_run(&sandbox);
+    application_destroy(&sandbox);
 
     return 0;
 }

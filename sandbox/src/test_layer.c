@@ -35,7 +35,7 @@ static void on_detach()
     scene_destroy(game_scene);
 }
 
-static void process_event(Event *event)
+static void process_event(event_t *event)
 {
     switch (event->type)
     {
@@ -82,9 +82,9 @@ static void render(SDL_Renderer *renderer)
     SDL_RenderFillRect(renderer, &rect);
 }
 
-Layer test_layer_create()
+layer_t test_layer_create()
 {
-    return (Layer){
+    return (layer_t){
         .on_attach = on_attach,
         .on_detach = on_detach,
         .process_event = process_event,

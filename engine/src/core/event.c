@@ -1,8 +1,8 @@
 #include "core/event.h"
 
-Event event_create(SDL_Event native_event)
+event_t event_create(SDL_Event native_event)
 {
-    Event event;
+    event_t event;
     event.handled = false;
 
     switch (native_event.type)

@@ -2,7 +2,7 @@
 
 #include <SDL3/SDL.h>
 
-typedef enum key_code
+typedef enum
 {
     // Letters
     KeyCode_A            = SDLK_A,
@@ -104,5 +104,4 @@ typedef enum key_code
     KeyCode_NumNine      = SDLK_KP_9,
     KeyCode_NumZero      = SDLK_KP_0,
     KeyCode_NumPeriod    = SDLK_KP_PERIOD
-
-} KeyCode;
+} key_code_t;

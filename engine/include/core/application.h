@@ -3,15 +3,22 @@
 #include "core/window.h"
 #include "core/layer.h"
 
-typedef struct application Application;
+#include <stddef.h>
+#include <stdbool.h>
 
-Application *application_create();
-void application_destroy(Application *application);
+#define APPLICATION_INIT_FLAGS SDL_INIT_VIDEO
 
-void application_run(Application *application);
+typedef struct application
+{
+    size_t fps_limit;
+    window_t main_window;
+    layer_t *layer_stack;
+} application_t;
 
-void application_push_layer(Application *application, Layer layer);
-void application_pop_layer(Application *application);
-void application_pop_layer_at(Application *application, size_t index);
+bool application_init(application_t *self);
+void application_destroy(application_t *self);
 
-Window *application_get_main_window(Application *application);
+void application_run(application_t *self);
+
+void application_push_layer(application_t *self, layer_t layer);
+layer_t application_pop_layer(application_t *self);

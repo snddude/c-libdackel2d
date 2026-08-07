@@ -4,56 +4,47 @@
 
 #include <SDL3/SDL.h>
 #include <stb_ds.h>
-#include <stdlib.h>
 
-typedef struct application
+bool application_init(application_t *self)
 {
-    Window *ptr_main_window;
-    Layer *layer_stack;
-
-} Application;
-
-Application *application_create()
-{
-    if (!SDL_Init(SDL_INIT_VIDEO))
+    if (!SDL_Init(APPLICATION_INIT_FLAGS))
     {
         SDL_Log("Failed to initialize SDL: %s", SDL_GetError());
-        return NULL;
+        return false;
     }
 
-    Application *application = malloc(sizeof(Application));
-    application->ptr_main_window = window_create("Engine", 640, 480);
-    application->layer_stack = NULL;
+    window_t window;
+    if (!window_init(&window, "Engine", 640, 480))
+        return false;
 
-    return application;
+    self->fps_limit = 0;
+    self->main_window = window;
+    self->layer_stack = NULL;
+
+    return true;
 }
 
-void application_destroy(Application *application)
+void application_destroy(application_t *self)
 {
-    window_destroy(application->ptr_main_window);
+    window_destroy(&(self->main_window));
 
-    for (long int i = 0; i < arrlen(application->layer_stack); i++)
-    {
-        Layer layer = arrpop(application->layer_stack);
-        layer_on_detach(layer);
-    }
+    for (long int i = 0; i < arrlen(self->layer_stack); i++)
+        application_pop_layer(self);
 
-    arrfree(application->layer_stack);   
-    free(application);
-
+    arrfree(self->layer_stack);   
     SDL_Quit();
 }
 
-void application_run(Application *application)
+void application_run(application_t *self)
 {
     double delta;
 
     Uint64 last = 0;
 	Uint64 now = SDL_GetPerformanceCounter();
     SDL_Event native_event;
-    SDL_Renderer *renderer = window_get_renderer(application->ptr_main_window);
+    SDL_Renderer *renderer = self->main_window.sdl_renderer_p;
 
-    window_set_visible(application->ptr_main_window, true);
+    window_set_visible(&(self->main_window), true);
 
     while (1)
     {
@@ -61,18 +52,18 @@ void application_run(Application *application)
 		now = SDL_GetPerformanceCounter();
 		delta = (double)(now - last) / (double)SDL_GetPerformanceFrequency();
 
-        size_t layer_count = arrlen(application->layer_stack);
+        size_t layer_count = arrlen(self->layer_stack);
 
         while (SDL_PollEvent(&native_event))
         {
             if (native_event.type == SDL_EVENT_QUIT)
                 goto End;
 
-            Event event = event_create(native_event);
+            event_t event = event_create(native_event);
 
             for (int i = layer_count - 1; i >= 0; i--)
             {
-                layer_process_event(application->layer_stack[i], &event);
+                layer_process_event(&self->layer_stack[i], &event);
 
                 if (event.handled)
                     break;
@@ -80,40 +71,32 @@ void application_run(Application *application)
         }
 
         for (size_t i = 0; i < layer_count; i++)
-            layer_process(application->layer_stack[i], delta);
+            layer_process(&self->layer_stack[i], delta);
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
         for (size_t i = 0; i < layer_count; i++)
-            layer_render(application->layer_stack[i], renderer);
+            layer_render(&self->layer_stack[i], renderer);
 
         SDL_RenderPresent(renderer);
+
+        if (self->fps_limit > 0)
+            SDL_Delay(1000 / self->fps_limit);
     }
 End:
 }
 
-void application_push_layer(Application *application, Layer layer)
+void application_push_layer(application_t *self, layer_t layer)
 {
-    arrput(application->layer_stack, layer);
-    layer_on_attach(layer);
+    arrput(self->layer_stack, layer);
+    layer_on_attach(&layer);
 }
 
-void application_pop_layer(Application *application)
+layer_t application_pop_layer(application_t *self)
 {
-    Layer layer = arrpop(application->layer_stack);
-    layer_on_detach(layer);
-}
+    layer_t layer = arrpop(self->layer_stack);
+    layer_on_detach(&layer);
 
-void application_pop_layer_at(Application *application, size_t index)
-{
-    Layer layer = application->layer_stack[index];
-    layer_on_detach(layer);
-
-    arrdel(application->layer_stack, index);
-}
-
-Window *application_get_main_window(Application *application)
-{
-    return application->ptr_main_window;
+    return layer;
 }
