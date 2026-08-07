@@ -59,7 +59,7 @@ void application_run(application_t *self)
             if (native_event.type == SDL_EVENT_QUIT)
                 goto End;
 
-            Event event = event_create(native_event);
+            event_t event = event_create(native_event);
 
             for (int i = layer_count - 1; i >= 0; i--)
             {
