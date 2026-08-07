@@ -85,10 +85,10 @@ static void render(SDL_Renderer *renderer)
 layer_t test_layer_create()
 {
     return (layer_t){
-        .on_attach = on_attach,
-        .on_detach = on_detach,
-        .process_event = process_event,
-        .process = process,
-        .render = render
+        .on_attach_pfn = on_attach,
+        .on_detach_pfn = on_detach,
+        .process_event_pfn = process_event,
+        .process_pfn = process,
+        .render_pfn = render
     };
 }
