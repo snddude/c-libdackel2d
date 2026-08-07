@@ -13,7 +13,7 @@ typedef struct
     SDL_Renderer *sdl_renderer_p;
 } window_t;
 
-window_t window_create(const char *title, int w, int h);
+window_t window_create(const char *title, int width, int height);
 void window_destroy(window_t *self);
 
 bool window_get_visible(window_t *self);
@@ -29,4 +29,4 @@ const char *window_get_title(window_t *self);
 void window_set_title(window_t *self, const char *value);
 
 Vector2 window_get_size(window_t *self);
-void window_set_size(window_t *self, int w, int h);
+void window_set_size(window_t *self, int width, int height);

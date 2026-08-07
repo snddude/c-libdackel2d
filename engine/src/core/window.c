@@ -1,10 +1,10 @@
 #include "core/window.h"
 
-window_t window_create(const char *title, int w, int h)
+window_t window_create(const char *title, int width, int height)
 {
     window_t self;
 
-    self.sdl_window_p = SDL_CreateWindow(title, w, h, WINDOW_FLAGS);
+    self.sdl_window_p = SDL_CreateWindow(title, width, height, WINDOW_FLAGS);
     if (self.sdl_window_p == NULL)
     {
         SDL_Log("Failed to create native self: %s", SDL_GetError());
@@ -75,7 +75,7 @@ Vector2 window_get_size(window_t *self)
     return (Vector2){(float)w, (float)h};
 }
 
-void window_set_size(window_t *self, int w, int h)
+void window_set_size(window_t *self, int width, int height)
 {
-    SDL_SetWindowSize(self->sdl_window_p, w, h);
+    SDL_SetWindowSize(self->sdl_window_p, width, height);
 }
