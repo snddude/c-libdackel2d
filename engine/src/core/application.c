@@ -25,10 +25,7 @@ void application_destroy(application_t *self)
     window_destroy(&(self->main_window));
 
     for (long int i = 0; i < arrlen(self->layer_stack); i++)
-    {
-        Layer layer = arrpop(self->layer_stack);
-        layer_on_detach(layer);
-    }
+        application_pop_layer(self);
 
     arrfree(self->layer_stack);   
     SDL_Quit();
@@ -89,16 +86,10 @@ void application_push_layer(application_t *self, Layer layer)
     layer_on_attach(layer);
 }
 
-void application_pop_layer(application_t *self)
+Layer application_pop_layer(application_t *self)
 {
     Layer layer = arrpop(self->layer_stack);
     layer_on_detach(layer);
-}
 
-void application_pop_layer_at(application_t *self, size_t index)
-{
-    Layer layer = self->layer_stack[index];
-    layer_on_detach(layer);
-
-    arrdel(self->layer_stack, index);
+    return layer;
 }
