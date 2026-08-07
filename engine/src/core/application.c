@@ -4,7 +4,6 @@
 
 #include <SDL3/SDL.h>
 #include <stb_ds.h>
-#include <stdlib.h>
 
 application_t application_create()
 {
@@ -15,7 +14,7 @@ application_t application_create()
     }
 
     application_t app;
-    app.ptr_main_window = window_create("Engine", 640, 480);
+    app.main_window = window_create("Engine", 640, 480);
     app.layer_stack = NULL;
 
     return app;
@@ -23,7 +22,7 @@ application_t application_create()
 
 void application_destroy(application_t *self)
 {
-    window_destroy(self->ptr_main_window);
+    window_destroy(&(self->main_window));
 
     for (long int i = 0; i < arrlen(self->layer_stack); i++)
     {
@@ -42,9 +41,9 @@ void application_run(application_t *self)
     Uint64 last = 0;
 	Uint64 now = SDL_GetPerformanceCounter();
     SDL_Event native_event;
-    SDL_Renderer *renderer = window_get_renderer(self->ptr_main_window);
+    SDL_Renderer *renderer = self->main_window.sdl_renderer_p;
 
-    window_set_visible(self->ptr_main_window, true);
+    window_set_visible(&(self->main_window), true);
 
     while (1)
     {
@@ -102,9 +101,4 @@ void application_pop_layer_at(application_t *self, size_t index)
     layer_on_detach(layer);
 
     arrdel(self->layer_stack, index);
-}
-
-Window *application_get_main_window(application_t *self)
-{
-    return self->ptr_main_window;
 }
