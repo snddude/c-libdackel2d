@@ -12,7 +12,7 @@ void layer_on_detach(layer_t *self)
         self->on_detach();
 }
 
-void layer_process_event(layer_t *self, Event *event)
+void layer_process_event(layer_t *self, event_t *event)
 {
     if (self->process_event != NULL)
         self->process_event(event);
