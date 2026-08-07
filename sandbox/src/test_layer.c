@@ -5,8 +5,8 @@
 
 #define PLAYER_SPEED 128.0f
 
-static Scene *game_scene;
-static Entity *player;
+static scene_t game_scene;
+static entity_t player;
 
 static void on_attach()
 {
@@ -14,16 +14,16 @@ static void on_attach()
 
     game_scene = scene_create();
 
-    player = scene_create_entity(game_scene);
-    entity_add_component(player, Transform);
-    entity_add_component(player, Renderable);
-    entity_add_component(player, ColoredRect);
+    player = scene_create_entity(&game_scene);
+    entity_add_component(&player, transform_t);
+    entity_add_component(&player, renderable_t);
+    entity_add_component(&player, colored_rect_t);
 
-    Transform *player_transform = entity_get_component(player, Transform);
+    transform_t *player_transform = entity_get_component(&player, transform_t);
     player_transform->position = VECTOR2_ZERO;
     player_transform->scale = VECTOR2_ONE;
 
-    ColoredRect *player_visual = entity_get_component(player, ColoredRect);
+    colored_rect_t *player_visual = entity_get_component(&player, colored_rect_t);
     player_visual->size = (Vector2){16.0f, 16.0f};
     player_visual->color = (SDL_FColor){1.0f, 0.0f, 0.0f, 1.0f};
 }
@@ -31,8 +31,8 @@ static void on_attach()
 static void on_detach()
 {
     SDL_Log("Goodbye from test layer!");
-    entity_destroy(player);
-    scene_destroy(game_scene);
+    entity_destroy(&player);
+    scene_destroy(&game_scene);
 }
 
 static void process_event(event_t *event)
@@ -62,14 +62,14 @@ static void process(double delta)
     vector2_normalize(&input);
     Vector2 velocity = vector2_multiply(input, delta * PLAYER_SPEED);
 
-    Transform *player_transform = entity_get_component(player, Transform);
+    transform_t *player_transform = entity_get_component(&player, transform_t);
     player_transform->position = vector2_add(player_transform->position, velocity);
 }
 
 static void render(SDL_Renderer *renderer)
 {
-    Transform *player_transform = entity_get_component(player, Transform);
-    ColoredRect *player_visual = entity_get_component(player, ColoredRect);
+    transform_t *player_transform = entity_get_component(&player, transform_t);
+    colored_rect_t *player_visual = entity_get_component(&player, colored_rect_t);
 
     SDL_FRect rect = {
         player_transform->position.x,
