@@ -2,17 +2,16 @@
 
 #include "test_layer.h"
 
-#include <dackel2d.h>
-
-application_t sandbox_create()
+bool sandbox_init(application_t *self)
 {
-    application_t app = application_create();
+    if (!application_init(self))
+        return false;
 
-    window_set_title(&app.main_window, "Sandbox");
-    window_set_size(&app.main_window, 1280, 800);
+    window_set_title(&self->main_window, "Sandbox");
+    window_set_size(&self->main_window, 1280, 800);
 
     layer_t test_layer = test_layer_create();
-    application_push_layer(&app, test_layer);
+    application_push_layer(self, test_layer);
 
-    return app;
+    return true;
 }
