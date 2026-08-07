@@ -61,7 +61,7 @@ void application_run(application_t *self)
 
             for (int i = layer_count - 1; i >= 0; i--)
             {
-                layer_process_event(self->layer_stack[i], &event);
+                layer_process_event(&self->layer_stack[i], &event);
 
                 if (event.handled)
                     break;
@@ -69,13 +69,13 @@ void application_run(application_t *self)
         }
 
         for (size_t i = 0; i < layer_count; i++)
-            layer_process(self->layer_stack[i], delta);
+            layer_process(&self->layer_stack[i], delta);
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
         for (size_t i = 0; i < layer_count; i++)
-            layer_render(self->layer_stack[i], renderer);
+            layer_render(&self->layer_stack[i], renderer);
 
         SDL_RenderPresent(renderer);
 
@@ -85,16 +85,16 @@ void application_run(application_t *self)
 End:
 }
 
-void application_push_layer(application_t *self, Layer layer)
+void application_push_layer(application_t *self, layer_t layer)
 {
     arrput(self->layer_stack, layer);
-    layer_on_attach(layer);
+    layer_on_attach(&layer);
 }
 
-Layer application_pop_layer(application_t *self)
+layer_t application_pop_layer(application_t *self)
 {
-    Layer layer = arrpop(self->layer_stack);
-    layer_on_detach(layer);
+    layer_t layer = arrpop(self->layer_stack);
+    layer_on_detach(&layer);
 
     return layer;
 }
