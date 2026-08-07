@@ -5,7 +5,8 @@
 #include <SDL3/SDL.h>
 #include <stdbool.h>
 
-#define WINDOW_FLAGS SDL_WINDOW_VULKAN | SDL_WINDOW_HIDDEN
+#define WINDOW_INIT_FLAGS SDL_WINDOW_VULKAN | SDL_WINDOW_HIDDEN
+#define WINDOW_RENDERER "vulkan"
 
 typedef struct
 {
@@ -13,7 +14,7 @@ typedef struct
     SDL_Renderer *sdl_renderer_p;
 } window_t;
 
-window_t window_create(const char *title, int width, int height);
+bool window_init(window_t *self, const char *title, int width, int height);
 void window_destroy(window_t *self);
 
 bool window_get_visible(window_t *self);

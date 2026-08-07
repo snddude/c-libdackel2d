@@ -1,24 +1,25 @@
 #include "core/window.h"
 
-window_t window_create(const char *title, int width, int height)
+bool window_init(window_t *self, const char *title, int width, int height)
 {
-    window_t self;
-
-    self.sdl_window_p = SDL_CreateWindow(title, width, height, WINDOW_FLAGS);
-    if (self.sdl_window_p == NULL)
+    SDL_Window *sdl_window = SDL_CreateWindow(title, width, height, WINDOW_INIT_FLAGS);
+    if (sdl_window == NULL)
     {
-        SDL_Log("Failed to create native self: %s", SDL_GetError());
-        return (window_t){0};
+        SDL_Log("Failed to create native window: %s", SDL_GetError());
+        return false;
     }
 
-    self.sdl_renderer_p = SDL_CreateRenderer(self.sdl_window_p, "vulkan");
-    if (self.sdl_renderer_p == NULL)
+    SDL_Renderer *sdl_renderer = SDL_CreateRenderer(sdl_window, WINDOW_RENDERER);
+    if (sdl_renderer == NULL)
     {
-        SDL_Log("Failed to create renderer: %s", SDL_GetError());
-        return (window_t){0};
+        SDL_Log("Failed to create window renderer: %s", SDL_GetError());
+        return false;
     }
 
-    return self;
+    self->sdl_window_p = sdl_window;
+    self->sdl_renderer_p = sdl_renderer;
+
+    return true;
 }
 
 void window_destroy(window_t *self)
