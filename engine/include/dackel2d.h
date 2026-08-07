@@ -5,7 +5,6 @@
 #include "core/layer.h"
 #include "core/window.h"
 
-
 #include "input/input.h"
 #include "input/key_code.h"
 #include "input/mouse_button.h"

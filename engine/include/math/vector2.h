@@ -14,7 +14,6 @@ typedef struct vector2
 {
     float x;
     float y;
-
 } Vector2;
 
 Vector2 vector2_from_point(SDL_Point point);

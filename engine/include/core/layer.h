@@ -11,7 +11,6 @@ typedef struct
 	void (*process_event)(event_t *event);
 	void (*process)(double delta);
 	void (*render)(SDL_Renderer *renderer);
-
 } layer_t;
 
 void layer_on_attach(layer_t *self);

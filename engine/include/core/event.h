@@ -10,7 +10,6 @@
 typedef struct
 {
     bool handled;
-
     enum
     {
         EventType_Unhandled = 0,
@@ -19,7 +18,6 @@ typedef struct
         EventType_MouseWheel,
         EventType_MouseMotion
     } type;
-
     union
     {
         struct { bool echo; bool pressed; const char *label; key_code_t code; } key;
@@ -27,7 +25,6 @@ typedef struct
         struct { float horizontal; float vertical; } mouse_wheel;
         struct { Vector2 absolute; Vector2 relative; } mouse_motion;
     };
-
 } event_t;
 
 event_t event_create(SDL_Event native_event);
