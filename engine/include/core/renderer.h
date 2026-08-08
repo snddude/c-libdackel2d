@@ -9,7 +9,7 @@
 
 typedef struct 
 {
-    ecs_entity_t key;
+    void *key;
     SDL_Texture *value;
 } renderer_cache_t;
 
