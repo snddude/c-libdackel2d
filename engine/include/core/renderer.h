@@ -7,10 +7,16 @@
 
 #define RENDERER_INIT_FLAGS "vulkan"
 
+typedef struct 
+{
+    ecs_entity_t key;
+    SDL_Texture *value;
+} renderer_cache_t;
+
 typedef struct
 {
     SDL_Renderer *sdl_renderer_p;
-    SDL_Texture **cache;
+    renderer_cache_t *cache;
 } renderer_t;
 
 typedef struct window window_t;
