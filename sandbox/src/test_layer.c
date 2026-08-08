@@ -7,30 +7,47 @@
 
 static scene_t game_scene;
 static entity_t player;
+static entity_t obstacle;
 
 static void on_attach()
 {
     SDL_Log("Hello from test layer!");
 
     game_scene = scene_create();
+    player = scene_create_entity(&game_scene); 
+    obstacle = scene_create_entity(&game_scene); 
 
-    player = scene_create_entity(&game_scene);
-    entity_add_component(&player, transform_t);
     entity_add_component(&player, renderable_t);
-    entity_add_component(&player, colored_rect_t);
-
     renderable_t *player_renderable = entity_get_component(&player, renderable_t);
     player_renderable->visible = true;
     player_renderable->z_index = 0;
 
+    entity_add_component(&obstacle, renderable_t);
+    renderable_t *obstacle_renderable = entity_get_component(&obstacle, renderable_t);
+    obstacle_renderable->visible = true;
+    obstacle_renderable->z_index = 1;
+
+    entity_add_component(&player, transform_t);
     transform_t *player_transform = entity_get_component(&player, transform_t);
     player_transform->rotation = 0.0f;
     player_transform->position = VECTOR2_ZERO;
     player_transform->scale = VECTOR2_ONE;
 
+    entity_add_component(&obstacle, transform_t);
+    transform_t *obstacle_transform = entity_get_component(&obstacle, transform_t);
+    obstacle_transform->rotation = 0.0f;
+    obstacle_transform->position = VECTOR2_ZERO;
+    obstacle_transform->scale = VECTOR2_ONE;
+
+    entity_add_component(&player, colored_rect_t);
     colored_rect_t *player_visual = entity_get_component(&player, colored_rect_t);
     player_visual->size = (Vector2){16.0f, 16.0f};
     player_visual->color = (SDL_FColor){1.0f, 0.0f, 0.0f, 1.0f};
+
+    entity_add_component(&obstacle, colored_rect_t);
+    colored_rect_t *obstacle_visual = entity_get_component(&obstacle, colored_rect_t);
+    obstacle_visual->size = (Vector2){32.0f, 32.0f};
+    obstacle_visual->color = (SDL_FColor){1.0f, 0.0f, 1.0f, 1.0f};
 }
 
 static void on_detach()
