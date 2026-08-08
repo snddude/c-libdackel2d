@@ -24,7 +24,7 @@ void layer_process(layer_t *self, double delta)
         self->process(delta);
 }
 
-void layer_render(layer_t *self, SDL_Renderer *renderer)
+void layer_render(layer_t *self, renderer_t *renderer)
 {
     if (self->render != NULL)
         self->render(renderer);
