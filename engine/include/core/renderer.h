@@ -24,5 +24,5 @@ typedef struct window window_t;
 bool renderer_init(renderer_t *self, window_t *window);
 void renderer_destroy(renderer_t *self);
 
-void renderer_draw_colored_rect(renderer_t *self, transform_t *transform, renderable_t *renderable, colored_rect_t *rect);
-void renderer_draw_sprite(renderer_t *self, transform_t *transform, renderable_t *renderable, sprite_t *sprite);
+void renderer_draw_colored_rect(renderer_t *self, transform_t *transform, colored_rect_t *rect);
+void renderer_draw_sprite(renderer_t *self, transform_t *transform, sprite_t *sprite);

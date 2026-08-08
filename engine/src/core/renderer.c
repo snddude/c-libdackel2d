@@ -53,11 +53,8 @@ void renderer_destroy(renderer_t *self)
     SDL_DestroyRenderer(self->sdl_renderer_p);
 }
 
-void renderer_draw_colored_rect(renderer_t *self, transform_t *transform, renderable_t *renderable, colored_rect_t *rect)
+void renderer_draw_colored_rect(renderer_t *self, transform_t *transform, colored_rect_t *rect)
 {
-    if (!renderable->visible)
-        return;
-
     bool cached = hmgeti(self->cache, (void *)rect) != -1;
     SDL_Texture *rect_texture = cached ? hmget(self->cache, (void *)rect) : rasterize_colored_rect(self->sdl_renderer_p, rect);
     SDL_FRect destination = {
@@ -81,11 +78,8 @@ void renderer_draw_colored_rect(renderer_t *self, transform_t *transform, render
     );
 }
 
-void renderer_draw_sprite(renderer_t *self, transform_t *transform, renderable_t *renderable, sprite_t *sprite)
+void renderer_draw_sprite(renderer_t *self, transform_t *transform, sprite_t *sprite)
 {
-    if (!renderable->visible)
-        return;
-
     float tw, th;
     SDL_GetTextureSize(sprite->texture, &tw, &th);
 
