@@ -1,17 +1,17 @@
 #pragma once
 
+#include "core/renderer.h"
 #include "math/vector2.h"
 
 #include <SDL3/SDL.h>
 #include <stdbool.h>
 
 #define WINDOW_INIT_FLAGS SDL_WINDOW_VULKAN | SDL_WINDOW_HIDDEN
-#define WINDOW_RENDERER "vulkan"
 
 typedef struct window
 {
     SDL_Window *sdl_window_p;
-    SDL_Renderer *sdl_renderer_p;
+    renderer_t renderer;
 } window_t;
 
 bool window_init(window_t *self, const char *title, int width, int height);
