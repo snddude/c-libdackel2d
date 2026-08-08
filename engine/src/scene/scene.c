@@ -6,9 +6,9 @@
 
 static int compare_z_index(ecs_entity_t e1, const void *v1, ecs_entity_t e2, const void *v2)
 {
-  const renderable_t *d1 = v1;
-  const renderable_t *d2 = v2;
-  return d1->z_index > d2->z_index;
+    const renderable_t *d1 = v1;
+    const renderable_t *d2 = v2;
+    return d1->z_index > d2->z_index;
 }
 
 scene_t scene_create()
@@ -56,7 +56,6 @@ void scene_render(scene_t *self, renderer_t *renderer)
         .order_by = ecs_id(renderable_t),
         .order_by_callback = compare_z_index
     });
-
     ecs_iter_t it = ecs_query_iter(self->ecs_world, q);
 
     while (ecs_query_next(&it))
