@@ -5,7 +5,7 @@
 #include <SDL3_image/SDL_image.h>
 #include <stb_ds.h>
 
-static SDL_Texture *rasterize_colored_rect(SDL_Renderer *renderer, colored_rect_t *rect)
+static SDL_Texture *rasterize_colored_rect(SDL_Renderer *renderer, const colored_rect_t *rect)
 {
     SDL_Texture *texture = SDL_CreateTexture(
         renderer,
@@ -64,7 +64,7 @@ void renderer_end(renderer_t *self)
     SDL_RenderPresent(self->sdl_renderer_p);
 }
 
-void renderer_draw_colored_rect(renderer_t *self, transform_t *transform, colored_rect_t *rect)
+void renderer_draw_colored_rect(renderer_t *self, const transform_t *transform, const colored_rect_t *rect)
 {
     bool cached = hmgeti(self->cache, (void *)rect) != -1;
     SDL_Texture *rect_texture = cached ? hmget(self->cache, (void *)rect) : rasterize_colored_rect(self->sdl_renderer_p, rect);
@@ -89,7 +89,7 @@ void renderer_draw_colored_rect(renderer_t *self, transform_t *transform, colore
     );
 }
 
-void renderer_draw_sprite(renderer_t *self, transform_t *transform, sprite_t *sprite)
+void renderer_draw_sprite(renderer_t *self, const transform_t *transform, const sprite_t *sprite)
 {
     float tw, th;
     SDL_GetTextureSize(sprite->texture, &tw, &th);

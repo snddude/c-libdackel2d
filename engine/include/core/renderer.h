@@ -27,5 +27,5 @@ void renderer_destroy(renderer_t *self);
 void renderer_begin(renderer_t *self);
 void renderer_end(renderer_t *self);
 
-void renderer_draw_colored_rect(renderer_t *self, transform_t *transform, colored_rect_t *rect);
-void renderer_draw_sprite(renderer_t *self, transform_t *transform, sprite_t *sprite);
+void renderer_draw_colored_rect(renderer_t *self, const transform_t *transform, const colored_rect_t *rect);
+void renderer_draw_sprite(renderer_t *self, const transform_t *transform, const sprite_t *sprite);
