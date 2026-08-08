@@ -7,7 +7,6 @@
 
 static scene_t game_scene;
 static entity_t player;
-static entity_t obstacle;
 
 static void on_attach()
 {
@@ -15,7 +14,7 @@ static void on_attach()
 
     game_scene = scene_create();
     player = scene_create_entity(&game_scene); 
-    obstacle = scene_create_entity(&game_scene); 
+    entity_t obstacle = scene_create_entity(&game_scene); 
 
     entity_add_component(&player, renderable_t);
     renderable_t *player_renderable = entity_get_component(&player, renderable_t);
