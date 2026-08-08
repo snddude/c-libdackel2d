@@ -4,6 +4,13 @@
 
 #include <stb_ds.h>
 
+static int compare_z_index(ecs_entity_t e1, const void *v1, ecs_entity_t e2, const void *v2)
+{
+  const renderable_t *d1 = v1;
+  const renderable_t *d2 = v2;
+  return d1->z_index > d2->z_index;
+}
+
 scene_t scene_create()
 {
     scene_t scene;
@@ -41,8 +48,48 @@ void scene_destroy_entity(scene_t *self, entity_t *entity)
         }
 }
 
-void scene_render(scene_t *self, SDL_Renderer *renderer)
+void scene_render(scene_t *self, renderer_t *renderer)
 {
-    // Requires implementation of renderer methods for
-    // the colored rect and sprite components at least.
+    ecs_query_t *q = ecs_query(self->ecs_world, 
+    {
+        .terms = {{ .id = ecs_id(renderable_t) }},
+        .order_by = ecs_id(renderable_t),
+        .order_by_callback = compare_z_index
+    });
+
+    ecs_iter_t it = ecs_query_iter(self->ecs_world, q);
+
+    size_t entity_index = -1;
+    while (ecs_query_next(&it))
+    {
+        if (!ecs_field(&it, renderable_t, 1)->visible)
+            continue;
+
+        entity_t entity = {
+            .id = it.entities[entity_index],
+            .ecs_world_p = self->ecs_world
+        };
+        
+        if (!entity_has_component(&entity, transform_t))
+        {
+            entity_index++;
+            continue;
+        }
+
+        if (entity_has_component(&entity, colored_rect_t))
+            renderer_draw_colored_rect(
+                renderer,
+                entity_get_component(&entity, transform_t), 
+                entity_get_component(&entity, colored_rect_t)
+            );
+
+        if (entity_has_component(&entity, sprite_t))
+            renderer_draw_sprite(
+                renderer,
+                entity_get_component(&entity, transform_t), 
+                entity_get_component(&entity, sprite_t)
+            );
+
+        entity_index++;
+    }
 }
