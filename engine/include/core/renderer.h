@@ -5,13 +5,15 @@
 #include <SDL3/SDL.h>
 #include <stdbool.h>
 
+#define RENDERER_INIT_FLAGS "vulkan"
+
 typedef struct
 {
     SDL_Renderer *sdl_renderer_p;
     SDL_Texture **cache;
 } renderer_t;
 
-struct window_t;
+typedef struct window window_t;
 
 bool renderer_init(renderer_t *self, window_t *window);
 void renderer_destroy(renderer_t *self);

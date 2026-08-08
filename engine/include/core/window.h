@@ -8,7 +8,7 @@
 #define WINDOW_INIT_FLAGS SDL_WINDOW_VULKAN | SDL_WINDOW_HIDDEN
 #define WINDOW_RENDERER "vulkan"
 
-typedef struct
+typedef struct window
 {
     SDL_Window *sdl_window_p;
     SDL_Renderer *sdl_renderer_p;
