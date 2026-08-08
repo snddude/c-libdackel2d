@@ -4,7 +4,7 @@
 
 #include <stb_ds.h>
 
-static int compare_z_index(ecs_entity_t e1, const void *v1, ecs_entity_t e2, const void *v2)
+static int compare_z_index(ecs_entity_t e1  __attribute__((unused)), const void *v1, ecs_entity_t e2  __attribute__((unused)), const void *v2)
 {
     const renderable_t *d1 = v1;
     const renderable_t *d2 = v2;
