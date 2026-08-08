@@ -75,6 +75,8 @@ static void process_event(event_t *event)
                 event->handled = true;
             }
             break;
+        default:
+            break;
     }
 }
 
