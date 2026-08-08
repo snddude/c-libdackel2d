@@ -59,39 +59,34 @@ void scene_render(scene_t *self, renderer_t *renderer)
 
     ecs_iter_t it = ecs_query_iter(self->ecs_world, q);
 
-    size_t entity_index = 0;
     while (ecs_query_next(&it))
-    {
-        if (!ecs_field(&it, renderable_t, 0)->visible)
-            continue;
-
-        entity_t entity = {
-            .id = it.entities[entity_index],
-            .ecs_world_p = self->ecs_world
-        };
-
-        if (!entity_has_component(&entity, transform_t))
+        for (int i = 0; i < it.count; i++)
         {
-            entity_index++;
-            continue;
+            entity_t entity = {
+                .id = it.entities[i],
+                .ecs_world_p = self->ecs_world
+            };
+
+            if (!entity_get_component(&entity, renderable_t)->visible)
+                continue;
+
+            if (!entity_has_component(&entity, transform_t))
+                continue;
+
+            if (entity_has_component(&entity, colored_rect_t))
+                renderer_draw_colored_rect(
+                    renderer,
+                    entity_get_component(&entity, transform_t), 
+                    entity_get_component(&entity, colored_rect_t)
+                );
+
+            if (entity_has_component(&entity, sprite_t))
+                renderer_draw_sprite(
+                    renderer,
+                    entity_get_component(&entity, transform_t), 
+                    entity_get_component(&entity, sprite_t)
+                );
         }
-
-        if (entity_has_component(&entity, colored_rect_t))
-            renderer_draw_colored_rect(
-                renderer,
-                entity_get_component(&entity, transform_t), 
-                entity_get_component(&entity, colored_rect_t)
-            );
-
-        if (entity_has_component(&entity, sprite_t))
-            renderer_draw_sprite(
-                renderer,
-                entity_get_component(&entity, transform_t), 
-                entity_get_component(&entity, sprite_t)
-            );
-
-        entity_index++;
-    }
 
     ecs_query_fini(q);
 }
