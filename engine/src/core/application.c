@@ -42,9 +42,9 @@ void application_run(application_t *self)
     Uint64 last = 0;
 	Uint64 now = SDL_GetPerformanceCounter();
     SDL_Event native_event;
-    SDL_Renderer *renderer = self->main_window.sdl_renderer_p;
 
     window_set_visible(&(self->main_window), true);
+    renderer_t *main_window_renderer = &self->main_window.renderer;
 
     while (1)
     {
@@ -73,13 +73,12 @@ void application_run(application_t *self)
         for (size_t i = 0; i < layer_count; i++)
             layer_process(&self->layer_stack[i], delta);
 
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderClear(renderer);
+        renderer_begin(main_window_renderer);
 
         for (size_t i = 0; i < layer_count; i++)
-            layer_render(&self->layer_stack[i], renderer);
+            layer_render(&self->layer_stack[i], main_window_renderer);
 
-        SDL_RenderPresent(renderer);
+        renderer_end(main_window_renderer);
 
         if (self->fps_limit > 0)
             SDL_Delay(1000 / self->fps_limit);
