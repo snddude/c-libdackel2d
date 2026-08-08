@@ -92,4 +92,6 @@ void scene_render(scene_t *self, renderer_t *renderer)
 
         entity_index++;
     }
+
+    ecs_query_fini(q);
 }
