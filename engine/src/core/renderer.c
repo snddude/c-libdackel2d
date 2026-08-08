@@ -53,6 +53,17 @@ void renderer_destroy(renderer_t *self)
     SDL_DestroyRenderer(self->sdl_renderer_p);
 }
 
+void renderer_begin(renderer_t *self)
+{
+    SDL_SetRenderDrawColor(self->sdl_renderer_p, 0, 0, 0, 255);
+    SDL_RenderClear(self->sdl_renderer_p);
+}
+
+void renderer_end(renderer_t *self)
+{
+    SDL_RenderPresent(self->sdl_renderer_p);
+}
+
 void renderer_draw_colored_rect(renderer_t *self, transform_t *transform, colored_rect_t *rect)
 {
     bool cached = hmgeti(self->cache, (void *)rect) != -1;
