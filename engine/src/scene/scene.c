@@ -59,17 +59,17 @@ void scene_render(scene_t *self, renderer_t *renderer)
 
     ecs_iter_t it = ecs_query_iter(self->ecs_world, q);
 
-    size_t entity_index = -1;
+    size_t entity_index = 0;
     while (ecs_query_next(&it))
     {
-        if (!ecs_field(&it, renderable_t, 1)->visible)
+        if (!ecs_field(&it, renderable_t, 0)->visible)
             continue;
 
         entity_t entity = {
             .id = it.entities[entity_index],
             .ecs_world_p = self->ecs_world
         };
-        
+
         if (!entity_has_component(&entity, transform_t))
         {
             entity_index++;
