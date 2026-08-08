@@ -16,7 +16,7 @@ static SDL_Texture *rasterize_colored_rect(SDL_Renderer *renderer, colored_rect_
     );
 
     SDL_SetRenderTarget(renderer, texture);
-    SDL_SetRenderDrawColor(
+    SDL_SetRenderDrawColorFloat(
         renderer,
         rect->color.r,
         rect->color.g,
