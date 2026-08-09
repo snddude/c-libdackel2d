@@ -8,9 +8,9 @@ typedef struct
 	void (*on_attach_pfn)();
 	void (*on_detach_pfn)();
 
-	void (*process_event)(event_t *event);
-	void (*process)(double delta);
-	void (*render)(renderer_t *renderer);
+	void (*process_event_pfn)(event_t *event);
+	void (*process_pfn)(double delta);
+	void (*render_pfn)(renderer_t *renderer);
 } layer_t;
 
 void layer_on_attach(layer_t *self);
