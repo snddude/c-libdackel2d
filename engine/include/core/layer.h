@@ -5,8 +5,8 @@
 
 typedef struct
 {
-	void (*on_attach)();
-	void (*on_detach)();
+	void (*on_attach_pfn)();
+	void (*on_detach_pfn)();
 
 	void (*process_event)(event_t *event);
 	void (*process)(double delta);

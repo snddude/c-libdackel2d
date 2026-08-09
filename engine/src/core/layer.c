@@ -2,30 +2,30 @@
 
 void layer_on_attach(layer_t *self)
 {
-    if (self->on_attach != NULL)
-        self->on_attach();
+    if (self->on_attach_pfn != NULL)
+        self->on_attach_pfn();
 }
 
 void layer_on_detach(layer_t *self)
 {
-    if (self->on_detach != NULL)
-        self->on_detach();
+    if (self->on_detach_pfn != NULL)
+        self->on_detach_pfn();
 }
 
 void layer_process_event(layer_t *self, event_t *event)
 {
-    if (self->process_event != NULL)
-        self->process_event(event);
+    if (self->process_event_pfn != NULL)
+        self->process_event_pfn(event);
 }
 
 void layer_process(layer_t *self, double delta)
 {
-    if (self->process != NULL)
-        self->process(delta);
+    if (self->process_pfn != NULL)
+        self->process_pfn(delta);
 }
 
 void layer_render(layer_t *self, renderer_t *renderer)
 {
-    if (self->render != NULL)
-        self->render(renderer);
+    if (self->render_pfn != NULL)
+        self->render_pfn(renderer);
 }
