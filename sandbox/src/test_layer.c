@@ -13,19 +13,40 @@ static void on_attach()
     SDL_Log("Hello from test layer!");
 
     game_scene = scene_create();
+    player = scene_create_entity(&game_scene); 
+    entity_t obstacle = scene_create_entity(&game_scene); 
 
-    player = scene_create_entity(&game_scene);
-    entity_add_component(&player, transform_t);
     entity_add_component(&player, renderable_t);
-    entity_add_component(&player, colored_rect_t);
+    renderable_t *player_renderable = entity_get_component(&player, renderable_t);
+    player_renderable->visible = true;
+    player_renderable->z_index = 0;
 
+    entity_add_component(&obstacle, renderable_t);
+    renderable_t *obstacle_renderable = entity_get_component(&obstacle, renderable_t);
+    obstacle_renderable->visible = true;
+    obstacle_renderable->z_index = 1;
+
+    entity_add_component(&player, transform_t);
     transform_t *player_transform = entity_get_component(&player, transform_t);
+    player_transform->rotation = 0.0f;
     player_transform->position = VECTOR2_ZERO;
     player_transform->scale = VECTOR2_ONE;
 
+    entity_add_component(&obstacle, transform_t);
+    transform_t *obstacle_transform = entity_get_component(&obstacle, transform_t);
+    obstacle_transform->rotation = 0.0f;
+    obstacle_transform->position = VECTOR2_ZERO;
+    obstacle_transform->scale = VECTOR2_ONE;
+
+    entity_add_component(&player, colored_rect_t);
     colored_rect_t *player_visual = entity_get_component(&player, colored_rect_t);
     player_visual->size = (Vector2){16.0f, 16.0f};
     player_visual->color = (SDL_FColor){1.0f, 0.0f, 0.0f, 1.0f};
+
+    entity_add_component(&obstacle, colored_rect_t);
+    colored_rect_t *obstacle_visual = entity_get_component(&obstacle, colored_rect_t);
+    obstacle_visual->size = (Vector2){32.0f, 32.0f};
+    obstacle_visual->color = (SDL_FColor){1.0f, 0.0f, 1.0f, 1.0f};
 }
 
 static void on_detach()
@@ -53,6 +74,8 @@ static void process_event(event_t *event)
                 event->handled = true;
             }
             break;
+        default:
+            break;
     }
 }
 
@@ -66,20 +89,9 @@ static void process(double delta)
     player_transform->position = vector2_add(player_transform->position, velocity);
 }
 
-static void render(SDL_Renderer *renderer)
+static void render(renderer_t *renderer)
 {
-    transform_t *player_transform = entity_get_component(&player, transform_t);
-    colored_rect_t *player_visual = entity_get_component(&player, colored_rect_t);
-
-    SDL_FRect rect = {
-        player_transform->position.x,
-        player_transform->position.y,
-        player_visual->size.x * player_transform->scale.x,
-        player_visual->size.y * player_transform->scale.y,
-    };
-
-    SDL_SetRenderDrawColorFloat(renderer, player_visual->color.r, player_visual->color.g, player_visual->color.b, player_visual->color.a);
-    SDL_RenderFillRect(renderer, &rect);
+    scene_render(&game_scene, renderer);
 }
 
 layer_t test_layer_create()

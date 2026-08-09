@@ -8,23 +8,19 @@ bool window_init(window_t *self, const char *title, int width, int height)
         SDL_Log("Failed to create native window: %s", SDL_GetError());
         return false;
     }
-
-    SDL_Renderer *sdl_renderer = SDL_CreateRenderer(sdl_window, WINDOW_RENDERER);
-    if (sdl_renderer == NULL)
-    {
-        SDL_Log("Failed to create window renderer: %s", SDL_GetError());
-        return false;
-    }
-
     self->sdl_window_p = sdl_window;
-    self->sdl_renderer_p = sdl_renderer;
+
+    renderer_t renderer;
+    if (!renderer_init(&renderer, self))
+        SDL_Log("Failed to create window renderer: %s", SDL_GetError());
+    self->renderer = renderer;
 
     return true;
 }
 
 void window_destroy(window_t *self)
 {
-    SDL_DestroyRenderer(self->sdl_renderer_p);
+    renderer_destroy(&self->renderer);
     SDL_DestroyWindow(self->sdl_window_p);
 }
 
