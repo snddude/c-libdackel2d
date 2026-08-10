@@ -20,7 +20,7 @@ void resource_manager_init(renderer_t *renderer_p)
 SDL_Texture *load_texture(const char *path)
 {
     if (hmgeti(cache, path) != -1)
-        return hmget(cache, path);
+        return (SDL_Texture *)hmget(cache, path);
 
     SDL_Texture *texture = IMG_LoadTexture(renderer, path);
     hmput(cache, path, (void *)texture);
@@ -31,7 +31,7 @@ SDL_Texture *load_texture(const char *path)
 TTF_Font *load_font(const char *path, float size)
 {
     if (hmgeti(cache, path) != -1)
-        return hmget(cache, path);
+        return (TTF_Font *)hmget(cache, path);
 
     TTF_Font *font = TTF_OpenFont(path, size);
     hmput(cache, path, (void *)font);
