@@ -1,6 +1,7 @@
 #include "core/application.h"
 
 #include "core/event.h"
+#include "core/resource_manager.h"
 
 #include <SDL3/SDL.h>
 #include <stb_ds.h>
@@ -16,6 +17,8 @@ bool application_init(application_t *self)
     window_t window;
     if (!window_init(&window, "Engine", 640, 480))
         return false;
+
+    resource_manager_init(&window.renderer);
 
     self->fps_limit = 0;
     self->main_window = window;
