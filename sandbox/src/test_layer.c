@@ -10,7 +10,7 @@ static entity_t player;
 
 static void on_attach()
 {
-    SDL_Log("Hello from test layer!");
+    log_info("Hello from test layer!");
 
     game_scene = scene_create();
     player = scene_create_entity(&game_scene); 
@@ -68,9 +68,9 @@ static void on_attach()
 
 static void on_detach()
 {
-    SDL_Log("Goodbye from test layer!");
     entity_destroy(&player);
     scene_destroy(&game_scene);
+    log_info("Goodbye from test layer!");
 }
 
 static void process_event(event_t *event)
