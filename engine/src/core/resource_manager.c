@@ -31,6 +31,27 @@ void resource_manager_init(renderer_t *renderer_p)
     renderer = renderer_p->sdl_renderer_p;
 }
 
+void resource_manager_destroy()
+{
+    for (long int i = 0; i < hmlen(cache); i++)
+    {
+        resource_handle_t key = cache[i].key;
+        void *value = cache[i].value;
+
+        switch (key.type)
+        {
+            case ResourceType_Texture:
+                SDL_DestroyTexture((SDL_Texture *)value);
+                break;
+            case ResourceType_Font:
+                TTF_CloseFont((TTF_Font *)value);
+                break;
+        }
+    }
+
+    hmfree(cache);
+}
+
 SDL_Texture *load_texture(const char *path)
 {
     resource_handle_t handle = {

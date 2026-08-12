@@ -6,6 +6,7 @@
 #include <SDL3_ttf/SDL_ttf.h>
 
 void resource_manager_init(renderer_t *renderer_p);
+void resource_manager_destroy();
 
 SDL_Texture *load_texture(const char *path);
 TTF_Font *load_font(const char *path, float size);
