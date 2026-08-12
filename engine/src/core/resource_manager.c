@@ -5,12 +5,26 @@
 
 typedef struct
 {
-    const char *key;
+    enum
+    {
+        ResourceType_Texture,
+        ResourceType_Font,
+    } type;
+    union
+    {
+        struct { const char *path; } texture;
+        struct { const char *path; float size; } font;
+    };   
+} resource_handle_t;
+
+typedef struct
+{
+    resource_handle_t key;
     void *value;
-} resource_manager_cache_t;
+} resource_cache_t;
 
 static SDL_Renderer *renderer = NULL;
-static resource_manager_cache_t *cache = NULL;
+static resource_cache_t *cache = NULL;
 
 void resource_manager_init(renderer_t *renderer_p)
 {
@@ -19,22 +33,33 @@ void resource_manager_init(renderer_t *renderer_p)
 
 SDL_Texture *load_texture(const char *path)
 {
-    if (hmgeti(cache, path) != -1)
-        return (SDL_Texture *)hmget(cache, path);
+    resource_handle_t handle = {
+        .type = ResourceType_Texture,
+        .texture.path = path
+    };
+
+    if (hmgeti(cache, handle) != -1)
+        return (SDL_Texture *)hmget(cache, handle);
 
     SDL_Texture *texture = IMG_LoadTexture(renderer, path);
-    hmput(cache, path, (void *)texture);
+    hmput(cache, handle, (void *)texture);
 
     return texture;
 }
 
 TTF_Font *load_font(const char *path, float size)
 {
-    if (hmgeti(cache, path) != -1)
-        return (TTF_Font *)hmget(cache, path);
+    resource_handle_t handle = {
+        .type = ResourceType_Font,
+        .font.path = path,
+        .font.size = size
+    };
+
+    if (hmgeti(cache, handle) != -1)
+        return (TTF_Font *)hmget(cache, handle);
 
     TTF_Font *font = TTF_OpenFont(path, size);
-    hmput(cache, path, (void *)font);
+    hmput(cache, handle, (void *)font);
 
     return font;
 }
