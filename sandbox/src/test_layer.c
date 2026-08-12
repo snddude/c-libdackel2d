@@ -36,7 +36,7 @@ static void on_attach()
     transform_t *player_transform = entity_get_component(&player, transform_t);
     player_transform->rotation = 0.0f;
     player_transform->position = VECTOR2_ZERO;
-    player_transform->scale = VECTOR2_ONE;
+    player_transform->scale = vector2_multiply(VECTOR2_ONE, 2.0f);
 
     entity_add_component(&obstacle, transform_t);
     transform_t *obstacle_transform = entity_get_component(&obstacle, transform_t);
@@ -48,12 +48,12 @@ static void on_attach()
     transform_t *enemy_transform = entity_get_component(&enemy, transform_t);
     enemy_transform->rotation = 0.0f;
     enemy_transform->position = (Vector2){ 32.0f, 32.0f };
-    enemy_transform->scale = vector2_multiply(VECTOR2_ONE, 5.0f);
+    enemy_transform->scale = vector2_multiply(VECTOR2_ONE, 3.0f);
 
-    entity_add_component(&player, colored_rect_t);
-    colored_rect_t *player_visual = entity_get_component(&player, colored_rect_t);
-    player_visual->size = (Vector2){16.0f, 16.0f};
-    player_visual->color = (SDL_FColor){1.0f, 0.0f, 0.0f, 1.0f};
+    entity_add_component(&player, sprite_t);
+    sprite_t *player_visual = entity_get_component(&player, sprite_t);
+    player_visual->modulate = (SDL_FColor){ 1.0f, 1.0f, 1.0f, 1.0f };
+    player_visual->texture = load_texture("assets/sprites/Heart.png");
 
     entity_add_component(&obstacle, colored_rect_t);
     colored_rect_t *obstacle_visual = entity_get_component(&obstacle, colored_rect_t);
