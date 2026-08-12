@@ -1,5 +1,7 @@
 #include <core/resource_manager.h>
 
+#include "logger/logger.h"
+
 #include <stb_ds.h>
 #include <SDL3_image/SDL_image.h>
 
@@ -65,7 +67,7 @@ SDL_Texture *load_texture(const char *path)
     SDL_Texture *texture = IMG_LoadTexture(renderer, path);
     if (texture == NULL)
     {
-        SDL_Log("Failed to load texture! %s", SDL_GetError());
+        log_error("Failed to load texture! %s", SDL_GetError());
         return NULL;
     }
 
@@ -87,7 +89,7 @@ TTF_Font *load_font(const char *path, float size)
     TTF_Font *font = TTF_OpenFont(path, size);
     if (font == NULL)
     {
-        SDL_Log("Failed to load font! %s", SDL_GetError());
+        log_error("Failed to load font! %s", SDL_GetError());
         return NULL;
     }
 
