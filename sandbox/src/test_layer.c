@@ -14,7 +14,8 @@ static void on_attach()
 
     game_scene = scene_create();
     player = scene_create_entity(&game_scene); 
-    entity_t obstacle = scene_create_entity(&game_scene); 
+    entity_t obstacle = scene_create_entity(&game_scene);
+    entity_t enemy = scene_create_entity(&game_scene);
 
     entity_add_component(&player, renderable_t);
     renderable_t *player_renderable = entity_get_component(&player, renderable_t);
@@ -26,11 +27,16 @@ static void on_attach()
     obstacle_renderable->visible = true;
     obstacle_renderable->z_index = 1;
 
+    entity_add_component(&enemy, renderable_t);
+    renderable_t *enemy_renderable = entity_get_component(&enemy, renderable_t);
+    enemy_renderable->visible = true;
+    enemy_renderable->z_index = -5;
+
     entity_add_component(&player, transform_t);
     transform_t *player_transform = entity_get_component(&player, transform_t);
     player_transform->rotation = 0.0f;
     player_transform->position = VECTOR2_ZERO;
-    player_transform->scale = VECTOR2_ONE;
+    player_transform->scale = vector2_multiply(VECTOR2_ONE, 2.0f);
 
     entity_add_component(&obstacle, transform_t);
     transform_t *obstacle_transform = entity_get_component(&obstacle, transform_t);
@@ -38,15 +44,26 @@ static void on_attach()
     obstacle_transform->position = VECTOR2_ZERO;
     obstacle_transform->scale = VECTOR2_ONE;
 
-    entity_add_component(&player, colored_rect_t);
-    colored_rect_t *player_visual = entity_get_component(&player, colored_rect_t);
-    player_visual->size = (Vector2){16.0f, 16.0f};
-    player_visual->color = (SDL_FColor){1.0f, 0.0f, 0.0f, 1.0f};
+    entity_add_component(&enemy, transform_t);
+    transform_t *enemy_transform = entity_get_component(&enemy, transform_t);
+    enemy_transform->rotation = 0.0f;
+    enemy_transform->position = (Vector2){ 32.0f, 32.0f };
+    enemy_transform->scale = vector2_multiply(VECTOR2_ONE, 3.0f);
+
+    entity_add_component(&player, sprite_t);
+    sprite_t *player_visual = entity_get_component(&player, sprite_t);
+    player_visual->modulate = (SDL_FColor){ 1.0f, 1.0f, 1.0f, 1.0f };
+    player_visual->texture = load_texture("assets/sprites/Heart.png");
 
     entity_add_component(&obstacle, colored_rect_t);
     colored_rect_t *obstacle_visual = entity_get_component(&obstacle, colored_rect_t);
     obstacle_visual->size = (Vector2){32.0f, 32.0f};
     obstacle_visual->color = (SDL_FColor){1.0f, 0.0f, 1.0f, 1.0f};
+
+    entity_add_component(&enemy, sprite_t);
+    sprite_t *enemy_visual = entity_get_component(&enemy, sprite_t);
+    enemy_visual->modulate = (SDL_FColor){ 1.0f, 1.0f, 1.0f, 1.0f };
+    enemy_visual->texture = load_texture("assets/sprites/Mr.SpookyScary.png");
 }
 
 static void on_detach()

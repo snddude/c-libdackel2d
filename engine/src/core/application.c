@@ -1,6 +1,7 @@
 #include "core/application.h"
 
 #include "core/event.h"
+#include "core/resource_manager.h"
 
 #include <SDL3/SDL.h>
 #include <stb_ds.h>
@@ -17,6 +18,8 @@ bool application_init(application_t *self)
     if (!window_init(&window, "Engine", 640, 480))
         return false;
 
+    resource_manager_init(&window.renderer);
+
     self->fps_limit = 0;
     self->main_window = window;
     self->layer_stack = NULL;
@@ -26,6 +29,7 @@ bool application_init(application_t *self)
 
 void application_destroy(application_t *self)
 {
+    resource_manager_destroy();
     window_destroy(&(self->main_window));
 
     for (long int i = 0; i < arrlen(self->layer_stack); i++)

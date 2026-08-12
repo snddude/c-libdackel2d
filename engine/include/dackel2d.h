@@ -3,6 +3,7 @@
 #include "core/application.h"
 #include "core/event.h"
 #include "core/layer.h"
+#include "core/resource_manager.h"
 #include "core/window.h"
 
 #include "input/input.h"
