@@ -2,6 +2,7 @@
 
 #include "core/event.h"
 #include "core/resource_manager.h"
+#include "logger/logger.h"
 
 #include <SDL3/SDL.h>
 #include <stb_ds.h>
@@ -10,7 +11,7 @@ bool application_init(application_t *self)
 {
     if (!SDL_Init(APPLICATION_INIT_FLAGS))
     {
-        SDL_Log("Failed to initialize SDL: %s", SDL_GetError());
+        log_error("Failed to initialize SDL: %s", SDL_GetError());
         return false;
     }
 
