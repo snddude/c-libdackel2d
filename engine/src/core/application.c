@@ -29,6 +29,7 @@ bool application_init(application_t *self)
 
 void application_destroy(application_t *self)
 {
+    resource_manager_destroy();
     window_destroy(&(self->main_window));
 
     for (long int i = 0; i < arrlen(self->layer_stack); i++)
