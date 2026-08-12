@@ -1,6 +1,7 @@
 #include "core/renderer.h"
 
 #include "core/window.h"
+#include "logger/logger.h"
 
 #include <SDL3_image/SDL_image.h>
 #include <stb_ds.h>
@@ -34,7 +35,7 @@ bool renderer_init(renderer_t *self, window_t *window)
     SDL_Renderer *sdl_renderer = SDL_CreateRenderer(window->sdl_window_p, RENDERER_INIT_FLAGS);
     if (sdl_renderer == NULL)
     {
-        SDL_Log("Failed to create renderer: %s", SDL_GetError());
+        log_error("Failed to create renderer: %s", SDL_GetError());
         return false;
     }
 
