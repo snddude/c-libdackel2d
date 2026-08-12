@@ -63,7 +63,7 @@ static void on_attach()
     entity_add_component(&enemy, sprite_t);
     sprite_t *enemy_visual = entity_get_component(&enemy, sprite_t);
     enemy_visual->modulate = (SDL_FColor){ 1.0f, 1.0f, 1.0f, 1.0f };
-    enemy_visual->texture = load_texture("/home/ivan/Storage/Programming/c-dackel2d/sandbox/assets/sprites/Mr.SpookyScary.png");
+    enemy_visual->texture = load_texture("assets/sprites/Mr.SpookyScary.png");
 }
 
 static void on_detach()
