@@ -80,14 +80,14 @@ static void process_event(event_t *event)
         case EventType_MouseButton:
             if (event->mouse_button.pressed)
             {
-                SDL_Log("%d", event->mouse_button.button);
+                log_info("Pressed mouse button: %d", event->mouse_button.button);
                 event->handled = true;
             }
             break;
         case EventType_Key:
             if (!event->key.echo && event->key.pressed)
             {
-                SDL_Log(event->key.label);
+                log_info("Pressed key: %s", event->key.label);
                 event->handled = true;
             }
             break;
