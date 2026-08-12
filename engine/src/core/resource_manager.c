@@ -63,7 +63,6 @@ SDL_Texture *load_texture(const char *path)
         return (SDL_Texture *)hmget(cache, handle);
 
     SDL_Texture *texture = IMG_LoadTexture(renderer, path);
-
     if (texture == NULL)
     {
         SDL_Log("Failed to load texture! %s", SDL_GetError());
