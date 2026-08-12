@@ -63,8 +63,14 @@ SDL_Texture *load_texture(const char *path)
         return (SDL_Texture *)hmget(cache, handle);
 
     SDL_Texture *texture = IMG_LoadTexture(renderer, path);
-    hmput(cache, handle, (void *)texture);
 
+    if (texture == NULL)
+    {
+        SDL_Log("Failed to load texture! %s", SDL_GetError());
+        return NULL;
+    }
+
+    hmput(cache, handle, (void *)texture);
     return texture;
 }
 
@@ -80,7 +86,12 @@ TTF_Font *load_font(const char *path, float size)
         return (TTF_Font *)hmget(cache, handle);
 
     TTF_Font *font = TTF_OpenFont(path, size);
-    hmput(cache, handle, (void *)font);
+    if (font == NULL)
+    {
+        SDL_Log("Failed to load font! %s", SDL_GetError());
+        return NULL;
+    }
 
+    hmput(cache, handle, (void *)font);
     return font;
 }
