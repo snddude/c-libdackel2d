@@ -7,7 +7,7 @@ bool window_init(window_t *self, const char *title, int width, int height)
     SDL_Window *sdl_window = SDL_CreateWindow(title, width, height, WINDOW_INIT_FLAGS);
     if (sdl_window == NULL)
     {
-        log_error("Failed to create native window: %s", SDL_GetError());
+        slog_error("Failed to create native window: %s", SDL_GetError());
         return false;
     }
 
@@ -15,7 +15,7 @@ bool window_init(window_t *self, const char *title, int width, int height)
 
     renderer_t renderer;
     if (!renderer_init(&renderer, self))
-        log_error("Failed to create window renderer: %s", SDL_GetError());
+        slog_error("Failed to create window renderer: %s", SDL_GetError());
 
     self->renderer = renderer;
 
