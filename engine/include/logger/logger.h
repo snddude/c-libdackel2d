@@ -4,8 +4,9 @@
 
 #include <stdio.h>
 
-#define log_info(fmt, ...) fprintf(stdout, "[%s] [Dackel2D] [%sinfo%s] [%s:%d]: "fmt"\n", get_timestamp(), BFG_MAGENTA, END, __FILE_NAME__, __LINE__, ##__VA_ARGS__)
-#define log_error(fmt, ...) fprintf(stderr, "[%s] [Dackel2D] [%serror%s] [%s:%d]: "fmt"\n", get_timestamp(), BFG_RED, END, __FILE_NAME__, __LINE__, ##__VA_ARGS__)
-#define log_warning(fmt, ...) fprintf(stderr, "[%s] [Dackel2D] [%swarning%s] [%s:%d]: "fmt"\n", get_timestamp(), BFG_YELLOW, END , __FILE_NAME__, __LINE__, ##__VA_ARGS__)
+#define log_info(fmt, ...) log_message(stdout, "info", __FILE_NAME__, __LINE__, BFG_MAGENTA, fmt, ##__VA_ARGS__)
+#define log_error(fmt, ...) log_message(stdout, "error", __FILE_NAME__, __LINE__, BFG_RED, fmt, ##__VA_ARGS__)
+#define log_warning(fmt, ...) log_message(stdout, "warning", __FILE_NAME__, __LINE__, BFG_YELLOW, fmt, ##__VA_ARGS__)
 
 const char *get_timestamp();
+void log_message(FILE *stream, const char *type, const char *file, int line, const char *color, const char *fmt, ...);
