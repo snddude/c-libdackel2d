@@ -7,34 +7,34 @@
 #include <string.h>
 #include <time.h>
 
-#define MSG_COL_FMT_PFX "[%s] [Dackel2D] [%s%s%s] [%s:%d]: %s"
-#define MSG_FMT_PFX "[%s] [Dackel2D] [%s] [%s:%d]: %s"
-#define MSG_COL_ARGS get_timestamp(), color, type, END, file, line, msg
-#define MSG_ARGS get_timestamp(), type, file, line, msg
-
-static char *vfstrbufalloc(const char *fmt, va_list args)
+static char *vmakefstr(const char *fmt, va_list args)
 {
-    // vsnprintf() consumes the va_list.
-    // Make a copy and work with that.
+    // vsnprintf() consumes the va_list - make a copy 
+    // and calculate formatted string length with that.
     va_list copy;
-    va_copy(copy, args); 
+    va_copy(copy, args);
 
-    int size = vsnprintf(NULL, 0, fmt, copy);
+    // Length of formatted string is equal to the 
+    // total number of characters plus one more 
+    // for the null terminator ('\0').
+    int strsize = vsnprintf(NULL, 0, fmt, copy) + 1;
     va_end(copy);
 
-    // Alloc space the size of string + '\0'.
-    return malloc(size + 1);
+    char *fstr = malloc(strsize);
+    vsnprintf(fstr, strsize, fmt, args);
+
+    return fstr;
 }
 
-static char *fstrbufalloc(const char *fmt, ...)
+static char *makefstr(const char *fmt, ...)
 {
     va_list args;
     va_start(args, fmt);
 
-    char *buffer = vfstrbufalloc(fmt, args);
+    char *fstr = vmakefstr(fmt, args);
     va_end(args);
 
-    return buffer;
+    return fstr;
 }
 
 const char *get_timestamp()
@@ -50,21 +50,17 @@ const char *get_timestamp()
 
 void log_message(FILE *stream, const char *type, const char *file, int line, const char *color, const char *fmt, ...)
 {
-    va_list msg_args;
-    va_start(msg_args, fmt);
+    va_list args;
+    va_start(args, fmt);
 
-    char *msg = vfstrbufalloc(fmt, msg_args);
-    va_end(msg_args);
+    char *desc = vmakefstr(fmt, args);
+    va_end(args);
+    
+    char *msg = makefstr("[%s] [Dackel2D] [%s%s%s] [%s:%d]: %s", get_timestamp(), color, type, END, file, line, desc);
+    fprintf(stream, "%s\n", msg);
 
-    vsprintf(msg, fmt, msg_args);
-
-    char *ln = fstrbufalloc(MSG_COL_FMT_PFX, MSG_COL_ARGS);
-    sprintf(ln, MSG_COL_FMT_PFX, MSG_COL_ARGS);
-
-    fprintf(stream, "%s\n", ln);
-
+    free(desc);
     free(msg);
-    free(ln);
 }
 
 void store_message(const char *type, const char *file, int line, const char *fmt, ...)
@@ -76,22 +72,18 @@ void store_message(const char *type, const char *file, int line, const char *fmt
         return;
     }
 
-    va_list msg_args;
-    va_start(msg_args, fmt);
+    va_list args;
+    va_start(args, fmt);
 
-    char *msg = vfstrbufalloc(fmt, msg_args);
-    va_end(msg_args);
+    char *desc = vmakefstr(fmt, args);
+    va_end(args);
 
-    vsprintf(msg, fmt, msg_args);
+    char *msg = makefstr("[%s] [Dackel2D] [%s] [%s:%d]: %s", get_timestamp(), type, file, line, desc);
+    fprintf(log, "%s\n", msg);
 
-    char *ln = fstrbufalloc(MSG_FMT_PFX, MSG_ARGS);
-    sprintf(ln, MSG_FMT_PFX, MSG_ARGS);
+    if (fclose(log) != 0)
+        log_error("Failed to close log file! %s", strerror(errno));
 
-    fputs(ln, log);
-    fputc('\n', log);
-
+    free(desc);
     free(msg);
-    free(ln);
-
-    fclose(log);
 }
