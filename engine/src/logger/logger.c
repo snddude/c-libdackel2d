@@ -7,8 +7,10 @@
 #include <string.h>
 #include <time.h>
 
-#define MSG_PFX_FMT "[%s] [Dackel2D] [%s%s%s] [%s:%d]: %s"
-#define MSG_ARGS get_timestamp(), color, type, END, file, line, msg
+#define MSG_COL_FMT_PFX "[%s] [Dackel2D] [%s%s%s] [%s:%d]: %s"
+#define MSG_FMT_PFX "[%s] [Dackel2D] [%s] [%s:%d]: %s"
+#define MSG_COL_ARGS get_timestamp(), color, type, END, file, line, msg
+#define MSG_ARGS get_timestamp(), type, file, line, msg
 
 static char *vfstrbufalloc(const char *fmt, va_list args)
 {
@@ -56,11 +58,40 @@ void log_message(FILE *stream, const char *type, const char *file, int line, con
 
     vsprintf(msg, fmt, msg_args);
 
-    char *ln = fstrbufalloc(MSG_PFX_FMT, MSG_ARGS);
-    sprintf(ln, MSG_PFX_FMT, MSG_ARGS);
+    char *ln = fstrbufalloc(MSG_COL_FMT_PFX, MSG_COL_ARGS);
+    sprintf(ln, MSG_COL_FMT_PFX, MSG_COL_ARGS);
 
     fprintf(stream, "%s\n", ln);
 
     free(msg);
     free(ln);
+}
+
+void store_message(const char *type, const char *file, int line, const char *fmt, ...)
+{
+    FILE* log = fopen("log.txt", "a+");
+    if (log == NULL)
+    {
+        log_error("Failed to open log file! %s", strerror(errno));
+        return;
+    }
+
+    va_list msg_args;
+    va_start(msg_args, fmt);
+
+    char *msg = vfstrbufalloc(fmt, msg_args);
+    va_end(msg_args);
+
+    vsprintf(msg, fmt, msg_args);
+
+    char *ln = fstrbufalloc(MSG_FMT_PFX, MSG_ARGS);
+    sprintf(ln, MSG_FMT_PFX, MSG_ARGS);
+
+    fputs(ln, log);
+    fputc('\n', log);
+
+    free(msg);
+    free(ln);
+
+    fclose(log);
 }

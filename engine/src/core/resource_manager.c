@@ -67,7 +67,7 @@ SDL_Texture *load_texture(const char *path)
     SDL_Texture *texture = IMG_LoadTexture(renderer, path);
     if (texture == NULL)
     {
-        log_error("Failed to load texture! %s", SDL_GetError());
+        slog_error("Failed to load texture! %s", SDL_GetError());
         return NULL;
     }
 
@@ -89,7 +89,7 @@ TTF_Font *load_font(const char *path, float size)
     TTF_Font *font = TTF_OpenFont(path, size);
     if (font == NULL)
     {
-        log_error("Failed to load font! %s", SDL_GetError());
+        slog_error("Failed to load font! %s", SDL_GetError());
         return NULL;
     }
 
