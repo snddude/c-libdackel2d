@@ -1,27 +1,38 @@
 #include "core/window.h"
 
+#include "logger/logger.h"
+
 bool window_init(window_t *self, const char *title, int width, int height)
 {
+    slog_info("Initializing window '%s'...", title);
+
     SDL_Window *sdl_window = SDL_CreateWindow(title, width, height, WINDOW_INIT_FLAGS);
     if (sdl_window == NULL)
     {
-        SDL_Log("Failed to create native window: %s", SDL_GetError());
+        slog_error("Failed to create OS native window! %s", SDL_GetError());
         return false;
     }
+
     self->sdl_window_p = sdl_window;
 
     renderer_t renderer;
     if (!renderer_init(&renderer, self))
-        SDL_Log("Failed to create window renderer: %s", SDL_GetError());
+        slog_error("Failed to create window's renderer! %s", SDL_GetError());
+
     self->renderer = renderer;
 
+    slog_info("Window '%s' initialized successfully!", title);
     return true;
 }
 
 void window_destroy(window_t *self)
 {
+    slog_info("Destroying window '%s'...", window_get_title(self));
+
     renderer_destroy(&self->renderer);
     SDL_DestroyWindow(self->sdl_window_p);
+
+    slog_info("Window destroyed successfully!");
 }
 
 bool window_get_visible(window_t *self)

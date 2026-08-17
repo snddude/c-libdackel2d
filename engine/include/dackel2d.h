@@ -10,6 +10,9 @@
 #include "input/key_code.h"
 #include "input/mouse_button.h"
 
+#include "logger/colors.h"
+#include "logger/logger.h"
+
 #include "math/vector2.h"
 
 #include "scene/components.h"

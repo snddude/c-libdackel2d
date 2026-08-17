@@ -1,12 +1,15 @@
 #include "core/renderer.h"
 
 #include "core/window.h"
+#include "logger/logger.h"
 
 #include <SDL3_image/SDL_image.h>
 #include <stb_ds.h>
 
 static SDL_Texture *rasterize_colored_rect(SDL_Renderer *renderer, const colored_rect_t *rect)
 {
+    slog_info("Rasterizing colored rect for first time drawing...")
+
     SDL_Texture *texture = SDL_CreateTexture(
         renderer,
         SDL_PIXELFORMAT_RGBA8888,
@@ -14,6 +17,9 @@ static SDL_Texture *rasterize_colored_rect(SDL_Renderer *renderer, const colored
         rect->size.x,
         rect->size.y
     );
+
+    if (texture == NULL)
+        slog_error("Failed to create texture for colored rect rasterization! %s", SDL_GetError());
 
     SDL_SetRenderTarget(renderer, texture);
     SDL_SetRenderDrawColorFloat(
@@ -31,10 +37,12 @@ static SDL_Texture *rasterize_colored_rect(SDL_Renderer *renderer, const colored
 
 bool renderer_init(renderer_t *self, window_t *window)
 {
+    slog_info("Initializing renderer...");
+
     SDL_Renderer *sdl_renderer = SDL_CreateRenderer(window->sdl_window_p, RENDERER_INIT_FLAGS);
     if (sdl_renderer == NULL)
     {
-        SDL_Log("Failed to create renderer: %s", SDL_GetError());
+        slog_error("Failed to create renderer! %s", SDL_GetError());
         return false;
     }
 
@@ -42,15 +50,22 @@ bool renderer_init(renderer_t *self, window_t *window)
     self->cache = NULL;
 
     return true;
+    
+    slog_info("Renderer initialized successfully!");
 }
 
 void renderer_destroy(renderer_t *self)
 {
+    slog_info("Destroying renderer...");
+
+    slog_info("Clearing renderer's cache...");
     for (long int i = 0; i < hmlen(self->cache); i++)
         SDL_DestroyTexture(self->cache[i].value);
 
     hmfree(self->cache);
     SDL_DestroyRenderer(self->sdl_renderer_p);
+
+    slog_info("Renderer destroyed successfully!");
 }
 
 void renderer_begin(renderer_t *self)
@@ -75,8 +90,17 @@ void renderer_draw_colored_rect(renderer_t *self, const transform_t *transform, 
         .h = rect->size.y * transform->scale.y
     };
 
+    if (rect_texture == NULL)
+    {
+        slog_error("Failed to rasterize colored rect!");
+        return;
+    }
+
     if (!cached)
+    {
         hmput(self->cache, (void *)rect, rect_texture);
+        slog_info("Colored rect rasterized and cached successfully!");
+    }
 
     SDL_RenderTextureRotated(
         self->sdl_renderer_p,
@@ -91,6 +115,9 @@ void renderer_draw_colored_rect(renderer_t *self, const transform_t *transform, 
 
 void renderer_draw_sprite(renderer_t *self, const transform_t *transform, const sprite_t *sprite)
 {
+    if (sprite->texture == NULL)
+        return;
+
     float tw, th;
     SDL_GetTextureSize(sprite->texture, &tw, &th);
 

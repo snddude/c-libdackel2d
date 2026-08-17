@@ -10,7 +10,7 @@ static entity_t player;
 
 static void on_attach()
 {
-    SDL_Log("Hello from test layer!");
+    slog_info("Hello from test layer!");
 
     game_scene = scene_create();
     player = scene_create_entity(&game_scene); 
@@ -68,9 +68,9 @@ static void on_attach()
 
 static void on_detach()
 {
-    SDL_Log("Goodbye from test layer!");
     entity_destroy(&player);
     scene_destroy(&game_scene);
+    slog_info("Goodbye from test layer!");
 }
 
 static void process_event(event_t *event)
@@ -80,14 +80,14 @@ static void process_event(event_t *event)
         case EventType_MouseButton:
             if (event->mouse_button.pressed)
             {
-                SDL_Log("%d", event->mouse_button.button);
+                slog_info("Pressed mouse button: %d", event->mouse_button.button);
                 event->handled = true;
             }
             break;
         case EventType_Key:
             if (!event->key.echo && event->key.pressed)
             {
-                SDL_Log(event->key.label);
+                slog_info("Pressed key: %s", event->key.label);
                 event->handled = true;
             }
             break;
