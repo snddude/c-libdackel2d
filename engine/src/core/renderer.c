@@ -35,7 +35,7 @@ bool renderer_init(renderer_t *self, window_t *window)
     SDL_Renderer *sdl_renderer = SDL_CreateRenderer(window->sdl_window_p, RENDERER_INIT_FLAGS);
     if (sdl_renderer == NULL)
     {
-        log_error("Failed to create renderer: %s", SDL_GetError());
+        slog_error("Failed to create renderer! %s", SDL_GetError());
         return false;
     }
 

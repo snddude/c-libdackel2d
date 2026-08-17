@@ -11,7 +11,7 @@ bool application_init(application_t *self)
 {
     if (!SDL_Init(APPLICATION_INIT_FLAGS))
     {
-        log_error("Failed to initialize SDL: %s", SDL_GetError());
+        slog_error("Failed to initialize SDL! %s", SDL_GetError());
         return false;
     }
 
