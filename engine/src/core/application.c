@@ -9,6 +9,8 @@
 
 bool application_init(application_t *self)
 {
+    slog_info("Initializing application...");
+
     if (!SDL_Init(APPLICATION_INIT_FLAGS))
     {
         slog_error("Failed to initialize SDL! %s", SDL_GetError());
@@ -17,7 +19,10 @@ bool application_init(application_t *self)
 
     window_t window;
     if (!window_init(&window, "Engine", 640, 480))
+    {
+        slog_error("Failed to create application's main window!");
         return false;
+    }
 
     resource_manager_init(&window.renderer);
 
@@ -25,19 +30,25 @@ bool application_init(application_t *self)
     self->main_window = window;
     self->layer_stack = NULL;
 
+    slog_info("Application initialized successfully!");
     return true;
 }
 
 void application_destroy(application_t *self)
 {
+    slog_info("Destroying application...");
+
     resource_manager_destroy();
     window_destroy(&(self->main_window));
 
+    slog_info("Clearing application layer stack...");
     for (long int i = 0; i < arrlen(self->layer_stack); i++)
         application_pop_layer(self);
 
-    arrfree(self->layer_stack);   
+    arrfree(self->layer_stack);
     SDL_Quit();
+
+    slog_info("Application destroyed successfully!\n");
 }
 
 void application_run(application_t *self)
@@ -51,6 +62,7 @@ void application_run(application_t *self)
     window_set_visible(&(self->main_window), true);
     renderer_t *main_window_renderer = &self->main_window.renderer;
 
+    slog_info("Entered application's mainloop");
     while (1)
     {
 		last = now;
@@ -89,16 +101,21 @@ void application_run(application_t *self)
             SDL_Delay(1000 / self->fps_limit);
     }
 End:
+    slog_info("Exited application's mainloop");
 }
 
 void application_push_layer(application_t *self, layer_t layer)
 {
+    slog_info("Pushing new layer to application's layer stack...");
+
     arrput(self->layer_stack, layer);
     layer_on_attach(&layer);
 }
 
 layer_t application_pop_layer(application_t *self)
 {
+    slog_info("Popping layer from application's layer stack...");
+
     layer_t layer = arrpop(self->layer_stack);
     layer_on_detach(&layer);
 
