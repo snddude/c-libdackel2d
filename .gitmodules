@@ -1,16 +1,16 @@
-[submodule "engine/vendor/SDL"]
-	path = engine/vendor/SDL
+[submodule "vendor/SDL"]
+	path = vendor/SDL
 	url = https://github.com/libsdl-org/SDL.git
 	ignore = dirty
-[submodule "engine/vendor/SDL_image"]
-	path = engine/vendor/SDL_image
+[submodule "vendor/SDL_image"]
+	path = vendor/SDL_image
 	url = https://github.com/libsdl-org/SDL_image.git
 	ignore = dirty
-[submodule "engine/vendor/SDL_ttf"]
-	path = engine/vendor/SDL_ttf
+[submodule "vendor/SDL_ttf"]
+	path = vendor/SDL_ttf
 	url = https://github.com/libsdl-org/SDL_ttf.git
 	ignore = dirty
-[submodule "engine/vendor/flecs"]
-	path = engine/vendor/flecs
+[submodule "vendor/flecs"]
+	path = vendor/flecs
 	url = https://github.com/SanderMertens/flecs.git
 	ignore = dirty
