@@ -1,3 +1,7 @@
+# Reclones a git submodule and properly initializes it.
+# Use in case of a faulty clone or a pull that was
+# done without recursing the repositories submodules.
+
 submodule=""
 read -p "Enter submodule name: " submodule
 
