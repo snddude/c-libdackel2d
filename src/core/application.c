@@ -9,6 +9,7 @@
 
 bool application_init(application_t *self)
 {
+    set_log_level(LogLevel_Error);
     slog_info("Initializing application...");
 
     if (!SDL_Init(APPLICATION_INIT_FLAGS))
