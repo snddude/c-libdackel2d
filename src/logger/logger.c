@@ -7,6 +7,8 @@
 #include <string.h>
 #include <time.h>
 
+static log_level_t current_log_level = 1;
+
 static char *vmakefstr(const char *fmt, va_list args)
 {
     // vsnprintf() consumes the va_list - make a copy 
@@ -48,8 +50,16 @@ const char *get_timestamp()
     return buffer;
 }
 
-void log_message(FILE *stream, const char *type, const char *file, int line, const char *color, const char *fmt, ...)
+void set_log_level(log_level_t value)
 {
+    current_log_level = value;
+}
+
+void log_message(FILE *stream, log_level_t log_level, const char *type, const char *file, int line, const char *color, const char *fmt, ...)
+{
+    if (log_level > current_log_level)
+        return;
+
     va_list args;
     va_start(args, fmt);
 
