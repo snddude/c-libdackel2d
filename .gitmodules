@@ -14,3 +14,7 @@
 	path = vendor/flecs
 	url = https://github.com/SanderMertens/flecs.git
 	ignore = dirty
+[submodule "vendor/c-libvec2"]
+	path = vendor/c-libvec2
+	url = https://github.com/snddude/c-libvec2
+	ignore = dirty
