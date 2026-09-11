@@ -13,8 +13,6 @@
 #include "logger/colors.h"
 #include "logger/logger.h"
 
-#include "math/vector2.h"
-
 #include "scene/components.h"
 #include "scene/entity.h"
 #include "scene/scene.h"
