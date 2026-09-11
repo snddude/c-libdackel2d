@@ -1,6 +1,6 @@
 # Reclones a git submodule and properly initializes it.
 # Use in case of a faulty clone or a pull that was
-# done without recursing the repositories submodules.
+# done without recursing the repository's submodules.
 
 submodule=""
 read -p "Enter submodule name: " submodule
