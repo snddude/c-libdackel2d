@@ -29,6 +29,7 @@ set(SDLIMAGE_BACKEND_STB OFF)
 set(SDLTTF_VENDORED ON)
 set(SDLTTF_STRICT ON)
 
+add_subdirectory(vendor/c-libvec2)
 add_subdirectory(vendor/stb_ds)
 add_subdirectory(vendor/flecs)
 add_subdirectory(vendor/SDL)
@@ -39,6 +40,8 @@ file(GLOB_RECURSE SRC_FILES src/*.c)
 add_library(${PROJECT_NAME} STATIC ${SRC_FILES})
 
 target_include_directories(${PROJECT_NAME} PUBLIC include)
+
+target_link_libraries(${PROJECT_NAME} PUBLIC vec2)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC stb_ds)
 target_link_libraries(${PROJECT_NAME} PUBLIC flecs::flecs_static)
