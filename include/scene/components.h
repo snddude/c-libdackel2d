@@ -1,9 +1,8 @@
 #pragma once
 
-#include "math/vector2.h"
-
 #include <flecs.h>
 #include <SDL3/SDL.h>
+#include <vec2.h>
 #include <stdbool.h>
 
 typedef struct
@@ -14,8 +13,8 @@ typedef struct
 typedef struct
 {
     float rotation;
-    Vector2 position;
-    Vector2 scale;
+    vec2f_t position;
+    vec2f_t scale;
 } transform_t;
 
 typedef struct
@@ -26,7 +25,7 @@ typedef struct
 
 typedef struct
 {
-    Vector2 size;
+    vec2f_t size;
     SDL_FColor color;
 } colored_rect_t;
 

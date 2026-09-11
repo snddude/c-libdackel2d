@@ -27,8 +27,8 @@ event_t event_create(SDL_Event native_event)
             break;
         case SDL_EVENT_MOUSE_MOTION:
             event.type = EventType_MouseMotion;
-            event.mouse_motion.absolute = (Vector2){ .x = native_event.motion.x, .y = native_event.motion.y };
-            event.mouse_motion.relative = (Vector2){ .x = native_event.motion.xrel, .y = native_event.motion.yrel };
+            event.mouse_motion.absolute = (vec2i_t){ .x = native_event.motion.x, .y = native_event.motion.y };
+            event.mouse_motion.relative = (vec2i_t){ .x = native_event.motion.xrel, .y = native_event.motion.yrel };
             break;
         default:
             event.type = EventType_Unhandled;
