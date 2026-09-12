@@ -75,12 +75,12 @@ void window_set_title(window_t *self, const char *value)
     SDL_SetWindowTitle(self->sdl_window_p, value);
 }
 
-Vector2 window_get_size(window_t *self)
+vec2i_t window_get_size(window_t *self)
 {
     int w, h;
     SDL_GetWindowSize(self->sdl_window_p, &w, &h);
 
-    return (Vector2){(float)w, (float)h};
+    return (vec2i_t){w, h};
 }
 
 void window_set_size(window_t *self, int width, int height)

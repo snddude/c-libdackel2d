@@ -1,9 +1,9 @@
 #pragma once
 
 #include "core/renderer.h"
-#include "math/vector2.h"
 
 #include <SDL3/SDL.h>
+#include <vec2.h>
 #include <stdbool.h>
 
 #define WINDOW_INIT_FLAGS SDL_WINDOW_VULKAN | SDL_WINDOW_HIDDEN
@@ -29,5 +29,5 @@ void window_set_fullscreen(window_t *self, bool value);
 const char *window_get_title(window_t *self);
 void window_set_title(window_t *self, const char *value);
 
-Vector2 window_get_size(window_t *self);
+vec2i_t window_get_size(window_t *self);
 void window_set_size(window_t *self, int width, int height);
