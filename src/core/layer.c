@@ -1,5 +1,14 @@
 #include "core/layer.h"
 
+void layer_init(layer_t *self)
+{
+    self->on_attach_pfn = NULL;
+    self->on_detach_pfn = NULL;
+    self->process_event_pfn = NULL;
+    self->process_pfn = NULL;
+    self->render_pfn = NULL;
+}
+
 void layer_on_attach(layer_t *self)
 {
     if (self->on_attach_pfn != NULL)

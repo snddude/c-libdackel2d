@@ -13,6 +13,8 @@ typedef struct
 	void (*render_pfn)(renderer_t *renderer);
 } layer_t;
 
+void layer_init(layer_t *self);
+
 void layer_on_attach(layer_t *self);
 void layer_on_detach(layer_t *self);
 
