@@ -27,4 +27,4 @@ typedef struct
     };
 } event_t;
 
-event_t event_create(SDL_Event native_event);
+void event_init(event_t *self, SDL_Event native_event);
