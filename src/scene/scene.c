@@ -31,7 +31,9 @@ void scene_destroy(scene_t *self)
 
 entity_t scene_create_entity(scene_t *self)
 {
-    entity_t entity = entity_create(self->ecs_world);
+    entity_t entity;
+
+    entity_init(&entity, self->ecs_world);
     arrput(self->entities, entity);
 
     return entity;

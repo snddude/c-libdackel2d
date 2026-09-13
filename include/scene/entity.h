@@ -22,5 +22,5 @@ typedef struct
     ecs_world_t *ecs_world_p;
 } entity_t;
 
-entity_t entity_create(ecs_world_t *ecs_world_p);
+void entity_init(entity_t *self, ecs_world_t *ecs_world_p);
 void entity_destroy(entity_t *self);
