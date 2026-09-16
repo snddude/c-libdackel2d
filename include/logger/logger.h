@@ -18,6 +18,7 @@ typedef enum
     LogLevel_Error,
     LogLevel_Warning,
     LogLevel_Info,
+    NumberOfLogLevels, // Number of available log levels.
 } log_level_t;
 
 const char *get_timestamp();
