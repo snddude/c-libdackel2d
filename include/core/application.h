@@ -15,7 +15,7 @@ typedef struct application
     layer_t *layer_stack;
 } application_t;
 
-bool application_init(application_t *self);
+bool application_init(application_t *self, int argc, char *argv[]);
 void application_destroy(application_t *self);
 
 void application_run(application_t *self);

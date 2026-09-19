@@ -7,7 +7,7 @@
 #include <SDL3/SDL.h>
 #include <stb_ds.h>
 
-bool application_init(application_t *self)
+bool application_init(application_t *self, int argc, char *argv[])
 {
     set_log_level(LogLevel_Error);
     slog_info("Initializing application...");
