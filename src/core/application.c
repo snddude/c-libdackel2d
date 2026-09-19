@@ -6,12 +6,23 @@
 
 #include <SDL3/SDL.h>
 #include <stb_ds.h>
+#include <unistd.h>
 
 bool application_init(application_t *self, int argc, char *argv[])
 {
-    set_log_level(LogLevel_Error);
-    slog_info("Initializing application...");
+    char opt;
+    while ((opt = getopt(argc, argv, "l:")) != -1)
+        switch (opt)
+        {
+            case 'l':
+                set_log_level(atoi(optarg));
+                break;
+            default:
+                set_log_level(LogLevel_Error);
+                break;
+        }
 
+    slog_info("Initializing application...");
     if (!SDL_Init(APPLICATION_INIT_FLAGS))
     {
         slog_error("Failed to initialize SDL! %s", SDL_GetError());
