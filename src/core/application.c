@@ -11,9 +11,15 @@
 #include <string.h>
 #include <errno.h>
 
-bool application_init(application_t *self, int argc, char *argv[])
+static void init_default()
 {
-    char opt;
+    set_log_level(LogLevel_Error);
+    // Other stuff controlled by command line arguments...
+}
+
+static void parse_args(int argc, char *argv[])
+{
+    int opt;
     while ((opt = getopt(argc, argv, "l:")) != -1)
         switch (opt)
         {
@@ -24,16 +30,21 @@ bool application_init(application_t *self, int argc, char *argv[])
                 if (errno != err)
                 {
                     log_error("Failed to set log level! %s", strerror(errno));
-                    set_log_level(LogLevel_Error);
+                    init_default();
                     break;
                 }
 
                 set_log_level(level);
                 break;
             default:
-                set_log_level(LogLevel_Error);
+                init_default();
                 break;
         }
+}
+
+bool application_init(application_t *self, int argc, char *argv[])
+{
+    parse_args(argc, argv);
 
     slog_info("Initializing application...");
     if (!SDL_Init(APPLICATION_INIT_FLAGS))
