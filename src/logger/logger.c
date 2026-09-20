@@ -73,8 +73,11 @@ void log_message(FILE *stream, log_level_t log_level, const char *type, const ch
     free(msg);
 }
 
-void store_message(const char *type, const char *file, int line, const char *fmt, ...)
+void store_message(log_level_t log_level, const char *type, const char *file, int line, const char *fmt, ...)
 {
+    if (log_level > current_log_level)
+        return;
+
     FILE* log = fopen("log.txt", "a+");
     if (log == NULL)
     {
