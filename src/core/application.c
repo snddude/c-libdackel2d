@@ -7,6 +7,9 @@
 #include <SDL3/SDL.h>
 #include <stb_ds.h>
 #include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
 
 bool application_init(application_t *self, int argc, char *argv[])
 {
@@ -15,7 +18,17 @@ bool application_init(application_t *self, int argc, char *argv[])
         switch (opt)
         {
             case 'l':
-                set_log_level(atoi(optarg));
+                int err = errno;
+                long level = strtol(optarg, NULL, 10);
+
+                if (errno != err)
+                {
+                    log_error("Failed to set log level! %s", strerror(errno));
+                    set_log_level(LogLevel_Error);
+                    break;
+                }
+
+                set_log_level(level);
                 break;
             default:
                 set_log_level(LogLevel_Error);
