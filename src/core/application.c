@@ -17,34 +17,34 @@ static void init_default()
     // Other stuff controlled by command line arguments...
 }
 
-static void parse_args(int argc, char *argv[])
+static void parse_opts(int argc, char *argv[])
 {
     int opt;
     while ((opt = getopt(argc, argv, "l:")) != -1)
         switch (opt)
         {
-            case 'l':
-                int err = errno;
-                long level = strtol(optarg, NULL, 10);
+        case 'l':
+            int err = errno;
+            long level = strtol(optarg, NULL, 10);
 
-                if (errno != err)
-                {
-                    log_error("Failed to set log level! %s", strerror(errno));
-                    init_default();
-                    break;
-                }
-
-                set_log_level(level);
-                break;
-            default:
+            if (errno != err)
+            {
+                log_error("Failed to set log level! %s", strerror(errno));
                 init_default();
                 break;
+            }
+
+            set_log_level(level);
+            break;
+        default:
+            init_default();
+            break;
         }
 }
 
 bool application_init(application_t *self, int argc, char *argv[])
 {
-    parse_args(argc, argv);
+    parse_opts(argc, argv);
 
     slog_info("Initializing application...");
     if (!SDL_Init(APPLICATION_INIT_FLAGS))
