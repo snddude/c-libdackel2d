@@ -11,6 +11,15 @@
 #include <string.h>
 #include <errno.h>
 
+#include <getopt.h>
+
+const int *log_level = NULL;
+
+static struct option const long_opts[] = {
+    {"log-level", required_argument, NULL, 'l'},
+    {NULL, 0, NULL, 0},
+};
+
 static void init_default()
 {
     set_log_level(LogLevel_Error);
@@ -20,7 +29,7 @@ static void init_default()
 static void parse_opts(int argc, char *argv[])
 {
     int opt;
-    while ((opt = getopt(argc, argv, "l:")) != -1)
+    while ((opt = getopt_long(argc, argv, "l:", long_opts, NULL)) != -1)
         switch (opt)
         {
         case 'l':
