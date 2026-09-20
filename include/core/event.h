@@ -12,11 +12,11 @@ typedef struct
     bool handled;
     enum
     {
-        EventType_Unhandled = 0,
-        EventType_Key,
-        EventType_MouseButton,
-        EventType_MouseWheel,
-        EventType_MouseMotion
+        EVENT_TYPE_UNHANDLED = 0,
+        EVENT_TYPE_KEY,
+        EVENT_TYPE_MOUSEBUTTON,
+        EVENT_TYPE_MOUSEWHEEL,
+        EVENT_TYPE_MOUSEMOTION
     } type;
     union
     {

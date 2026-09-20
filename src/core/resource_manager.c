@@ -9,8 +9,8 @@ typedef struct
 {
     enum
     {
-        ResourceType_Texture,
-        ResourceType_Font,
+        RESOURCE_TYPE_TEXTURE,
+        RESOURCE_TYPE_FONT,
     } type;
     union
     {
@@ -49,11 +49,11 @@ void resource_manager_destroy()
 
         switch (key.type)
         {
-            case ResourceType_Texture:
+            case RESOURCE_TYPE_TEXTURE:
                 SDL_DestroyTexture((SDL_Texture *)value);
                 slog_info("Destroyed texture '%s'", key.texture.path);
                 break;
-            case ResourceType_Font:
+            case RESOURCE_TYPE_FONT:
                 TTF_CloseFont((TTF_Font *)value);
                 slog_info("Destroyed font '%s' with size %d", key.font.path, key.font.size);
                 break;
@@ -68,7 +68,7 @@ void resource_manager_destroy()
 SDL_Texture *load_texture(const char *path)
 {
     resource_handle_t handle = {
-        .type = ResourceType_Texture,
+        .type = RESOURCE_TYPE_TEXTURE,
         .texture.path = path
     };
 
@@ -92,7 +92,7 @@ SDL_Texture *load_texture(const char *path)
 TTF_Font *load_font(const char *path, float size)
 {
     resource_handle_t handle = {
-        .type = ResourceType_Font,
+        .type = RESOURCE_TYPE_FONT,
         .font.path = path,
         .font.size = size
     };
