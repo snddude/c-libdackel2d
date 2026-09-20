@@ -14,11 +14,11 @@
 
 typedef enum
 {
-    LogLevel_None = 0,
-    LogLevel_Error,
-    LogLevel_Warning,
-    LogLevel_Info,
-    NumberOfLogLevels, // Number of available log levels.
+    LOG_LEVEL_NONE = 0,
+    LOG_LEVEL_ERROR,
+    LOG_LEVEL_WARNING,
+    LOG_LEVEL_INFO,
+    LOG_LEVEL_COUNT, // Number of available log levels.
 } log_level_t;
 
 const char *get_timestamp();
