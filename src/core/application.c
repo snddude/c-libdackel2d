@@ -22,7 +22,7 @@ static struct option const long_opts[] = {
 
 static void init_default()
 {
-    set_log_level(LogLevel_Error);
+    set_log_level(LOG_LEVEL_ERROR);
     // Other stuff controlled by command line arguments...
 }
 
