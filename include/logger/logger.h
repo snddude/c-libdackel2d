@@ -4,9 +4,9 @@
 
 #include <stdio.h>
 
-#define log_info(fmt, ...) log_message(stdout, LogLevel_Info, "info", __FILE_NAME__, __LINE__, BFG_MAGENTA, fmt, ##__VA_ARGS__)
-#define log_error(fmt, ...) log_message(stdout, LogLevel_Error, "error", __FILE_NAME__, __LINE__, BFG_RED, fmt, ##__VA_ARGS__)
-#define log_warning(fmt, ...) log_message(stdout, LogLevel_Warning, "warning", __FILE_NAME__, __LINE__, BFG_YELLOW, fmt, ##__VA_ARGS__)
+#define log_info(fmt, ...) log_message(stdout, LOG_LEVEL_INFO, "info", __FILE_NAME__, __LINE__, BFG_MAGENTA, fmt, ##__VA_ARGS__)
+#define log_error(fmt, ...) log_message(stdout, LOG_LEVEL_ERROR, "error", __FILE_NAME__, __LINE__, BFG_RED, fmt, ##__VA_ARGS__)
+#define log_warning(fmt, ...) log_message(stdout, LOG_LEVEL_WARNING, "warning", __FILE_NAME__, __LINE__, BFG_YELLOW, fmt, ##__VA_ARGS__)
 
 #define slog_info(fmt, ...) { log_info(fmt, ##__VA_ARGS__); store_message("info", __FILE_NAME__, __LINE__, fmt, ##__VA_ARGS__); }
 #define slog_error(fmt, ...) { log_error(fmt, ##__VA_ARGS__); store_message("error", __FILE_NAME__, __LINE__, fmt, ##__VA_ARGS__); }
